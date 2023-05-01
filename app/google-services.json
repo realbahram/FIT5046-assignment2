@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "97199436529",
+    "project_id": "goalapp-65ff3",
+    "storage_bucket": "goalapp-65ff3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97199436529:android:b219e9c7857e56fa006f50",
+        "android_client_info": {
+          "package_name": "com.example.goal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97199436529-suavhu8gp0lj535eb8rbpseit9fbntm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTP3UfSHHfrQduh4ohWsUI47UY8J7u6E0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97199436529-suavhu8gp0lj535eb8rbpseit9fbntm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
