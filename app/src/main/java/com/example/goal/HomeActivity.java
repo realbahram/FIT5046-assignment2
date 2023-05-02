@@ -10,8 +10,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
-        TextView textview = findViewById(R.id.textView);
-        textview.setText("This is HOME activity");
     }
 }
 
