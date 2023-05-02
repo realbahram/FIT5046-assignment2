@@ -24,8 +24,8 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
         auth = FirebaseAuth.getInstance();
         Button registerButton=findViewById(R.id.createAccount);
-        EditText emailEditText= findViewById(R.id.emailEditText);
-        EditText passwordEditText= findViewById(R.id.passwordEditText);
+        EditText emailEditText= findViewById(R.id.EmailEditText);
+        EditText passwordEditText= findViewById(R.id.PasswordEditText);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
