@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,8 @@ public class SignUp extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     String msg = "Registration Successful";
-                    startActivity(new Intent(SignUp.this,
-                            MainActivity.class));
+                    startActivity(new Intent(SignUpActivity.this,
+                            LoginActivity.class));
                 }else {
                     String msg = "Registration Unsuccessful";
                     toastMsg(msg);

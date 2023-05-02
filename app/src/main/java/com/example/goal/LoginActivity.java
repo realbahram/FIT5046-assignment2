@@ -7,19 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.log_in);
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         EditText emailEditText = findViewById(R.id.emailEditText);
@@ -28,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
-                                                  startActivity(new Intent(MainActivity.this,
-                                                          SignUp.class));
+                                                  startActivity(new Intent(LoginActivity.this,
+                                                          SignUpActivity.class));
                                               }
                                           }
         );
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(AuthResult authResult) {
                 String msg = "Login Successful";
                 toastMsg(msg);
-                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
             }
         });
     }

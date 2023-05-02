@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
+        android:hint="temp@gmail.com"
         android:inputType="textEmailAddress"
         android:background="@drawable/rounded_edittext" />
     <TextView
