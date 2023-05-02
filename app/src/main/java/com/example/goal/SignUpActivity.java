@@ -26,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
         Button registerButton=findViewById(R.id.signUpButton);
         EditText emailEditText= findViewById(R.id.EmailEditText);
         EditText passwordEditText= findViewById(R.id.PasswordEditText);
+        Button loginButton = findViewById(R.id.LogInButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +40,13 @@ public class SignUpActivity extends AppCompatActivity {
                     String msg = "Password is too short";
                 } else
                     registerUser(email_txt, password_txt);
+            }
+        });
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(SignUpActivity.this,
+                        LoginActivity.class));
             }
         });
     }

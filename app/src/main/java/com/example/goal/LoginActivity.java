@@ -25,13 +25,12 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordEditText = findViewById(R.id.passwordEditText);
         Button registerButton =findViewById(R.id.SignUpButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-                                                  startActivity(new Intent(LoginActivity.this,
-                                                          SignUpActivity.class));
-                                              }
-                                          }
-        );
+                  @Override
+                  public void onClick(View v) {
+                      startActivity(new Intent(LoginActivity.this,
+                              SignUpActivity.class));
+                  }
+        });
         Button loginButton =findViewById(R.id.LogIn);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
