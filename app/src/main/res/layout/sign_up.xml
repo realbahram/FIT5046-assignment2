@@ -8,23 +8,37 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Sign Up"
         android:textSize="40sp"
         android:padding="5dp"
         android:textColor="#FFA800"/>
-
     <TextView
-        android:id="@+id/EmailText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="Name"
         android:textSize="20sp"
         android:paddingTop="50dp"
         android:paddingBottom="5dp"
         android:textColor="#FFA800"/>
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/NameEditText"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:inputType="textPersonName"
+        android:background="@drawable/rounded_edittext" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="20sp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFA800"/>
+
+    <EditText
+        android:id="@+id/EmailEditText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
@@ -40,33 +54,26 @@
         android:paddingTop="10dp"
         android:textColor="#FFA800"/>
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/PasswordEditText"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
         android:inputType="textPassword"
         android:background="@drawable/rounded_edittext" />
-    <TextView
-        android:id="@+id/ForgotPasswordText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forgot Password?"
-        android:textAlignment="center"
-        android:textColor="#FFA800" />
+
     <Button
-        android:id="@+id/LogIn"
+        android:id="@+id/createAccount"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundshapebtn"
         android:layout_margin="10dp"
-        android:text="Log In"
+        android:text="Create Account"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dont have an account?"
-        android:textAlignment="center"
+        android:text="Already have an account?"
         android:paddingTop="80dp"
         android:textColor="#FFA800" />
     <Button
@@ -75,7 +82,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/roundshapebtn"
         android:layout_margin="10dp"
-        android:text="Sign Up Now"
+        android:text="Log In"
         />
 
 </LinearLayout>
