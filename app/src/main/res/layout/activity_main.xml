@@ -14,7 +14,6 @@
         android:textColor="#FFA800"/>
 
     <TextView
-        android:id="@+id/EmailText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Email"
@@ -31,7 +30,6 @@
         android:inputType="textEmailAddress"
         android:background="@drawable/rounded_edittext" />
     <TextView
-        android:id="@+id/PasswordText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Password"
@@ -47,7 +45,6 @@
         android:inputType="textPassword"
         android:background="@drawable/rounded_edittext" />
     <TextView
-        android:id="@+id/ForgotPasswordText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
@@ -70,7 +67,7 @@
         android:paddingTop="80dp"
         android:textColor="#FFA800" />
     <Button
-        android:id="@+id/SignUp"
+        android:id="@+id/SignUpButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundshapebtn"

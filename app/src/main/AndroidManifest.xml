@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Goal"
         tools:targetApi="31">
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".SignUp"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

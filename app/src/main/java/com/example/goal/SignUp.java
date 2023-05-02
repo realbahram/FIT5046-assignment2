@@ -23,7 +23,7 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
         auth = FirebaseAuth.getInstance();
-        Button registerButton=findViewById(R.id.createAccount);
+        Button registerButton=findViewById(R.id.signUpButton);
         EditText emailEditText= findViewById(R.id.EmailEditText);
         EditText passwordEditText= findViewById(R.id.PasswordEditText);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -45,13 +45,12 @@ public class SignUp extends AppCompatActivity {
     private void registerUser(String email_txt, String password_txt) {
         // To create username and password
 
-        auth.createUserWithEmailAndPassword(email_txt,password_txt).addOnComple
-        teListener(new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email_txt,password_txt).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     String msg = "Registration Successful";
-                    startActivity(new Intent(SignupActivity.this,
+                    startActivity(new Intent(SignUp.this,
                             MainActivity.class));
                 }else {
                     String msg = "Registration Unsuccessful";

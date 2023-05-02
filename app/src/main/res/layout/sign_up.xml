@@ -62,7 +62,7 @@
         android:background="@drawable/rounded_edittext" />
 
     <Button
-        android:id="@+id/createAccount"
+        android:id="@+id/signUpButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundshapebtn"
@@ -77,7 +77,7 @@
         android:paddingTop="80dp"
         android:textColor="#FFA800" />
     <Button
-        android:id="@+id/SignUp"
+        android:id="@+id/LogInButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundshapebtn"
