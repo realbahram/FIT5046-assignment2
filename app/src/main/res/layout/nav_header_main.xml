@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Navigation Destinations"
+        android:text="Adventure Achiever"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         />
     <TextView

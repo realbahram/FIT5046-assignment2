@@ -8,7 +8,4 @@
     <item
         android:id="@+id/nav_add_fragment"
         android:title="Add Fragment" />
-    <item
-        android:id="@+id/nav_view_fragment"
-        android:title="View Fragment" />
 </menu>
