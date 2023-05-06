@@ -1,21 +1,29 @@
 package com.example.goal;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.goal.entity.Customer;
+import com.example.goal.viewmodel.CustomerViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     @Override
@@ -23,9 +31,12 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
         auth = FirebaseAuth.getInstance();
-        Button registerButton=findViewById(R.id.signUpButton);
-        EditText emailEditText= findViewById(R.id.EmailEditText);
-        EditText passwordEditText= findViewById(R.id.PasswordEditText);
+        Button registerButton = findViewById(R.id.signUpButton);
+
+        EditText emailEditText = findViewById(R.id.EmailEditText);
+        EditText passwordEditText = findViewById(R.id.PasswordEditText);
+        EditText nameEditText = findViewById(R.id.NameEditText);
+
         Button loginButton = findViewById(R.id.LogInButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,18 +53,12 @@ public class SignUpActivity extends AppCompatActivity {
                     registerUser(email_txt, password_txt);
             }
         });
-        loginButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                startActivity(new Intent(SignUpActivity.this,
-                        LoginActivity.class));
-            }
-        });
     }
     private void registerUser(String email_txt, String password_txt) {
         // To create username and password
 
-        auth.createUserWithEmailAndPassword(email_txt,password_txt).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email_txt,password_txt).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
