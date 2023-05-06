@@ -1,5 +1,6 @@
 package com.example.goal;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,35 +12,51 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.goal.viewmodel.UserHelperClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+    TextInputLayout regName,regEmail,redAddress,regPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
         auth = FirebaseAuth.getInstance();
         Button registerButton=findViewById(R.id.signUpButton);
-        EditText emailEditText= findViewById(R.id.EmailEditText);
-        EditText passwordEditText= findViewById(R.id.PasswordEditText);
+//        EditText emailEditText= findViewById(R.id.EmailEditText);
+//        EditText passwordEditText= findViewById(R.id.PasswordEditText);
         Button loginButton = findViewById(R.id.LogInButton);
+
+        regName = findViewById(R.id.signUp_name);
+        regEmail = findViewById(R.id.signUp_email);
+        regPassword = findViewById(R.id.signUp_password);
         registerButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                String email_txt = emailEditText.getText().toString();
-                String password_txt =
-                        passwordEditText.getText().toString();
-                if (TextUtils.isEmpty(email_txt) ||
-                        TextUtils.isEmpty(password_txt)) {
+                String email = regEmail.getEditText().getText().toString();
+                String password = regPassword.getEditText().getText().toString();
+                String name = regName.getEditText().getText().toString();
+                if (TextUtils.isEmpty(email) ||
+                        TextUtils.isEmpty(password)) {
                     String msg = "Empty Username or Password";
-                } else if (password_txt.length() < 6) {
+                } else if (password.length() < 6) {
                     String msg = "Password is too short";
                 } else
-                    registerUser(email_txt, password_txt);
+                    rootNode = FirebaseDatabase.getInstance();
+                    reference = rootNode.getReference("User");
+                    UserHelperClass helperClass = new UserHelperClass(name,email,password);
+                    reference.child(name).setValue(helperClass);
+                    registerUser(email, password);
             }
         });
         loginButton.setOnClickListener(new View.OnClickListener(){
