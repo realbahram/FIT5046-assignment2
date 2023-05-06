@@ -21,13 +21,19 @@
         android:paddingBottom="5dp"
         android:textColor="#FFA800"/>
 
-    <EditText
-        android:id="@+id/NameEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signUp_name"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
-        android:inputType="textPersonName"
-        android:background="@drawable/rounded_edittext" />
+        android:hint="Full name"
+        android:inputType="textPersonName">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -37,29 +43,63 @@
         android:paddingBottom="5dp"
         android:textColor="#FFA800"/>
 
-    <EditText
-        android:id="@+id/EmailEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signUp_email"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/rounded_edittext" />
+        android:hint="domain@gmail.com"
+        android:inputType="textEmailAddress">
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
-        android:id="@+id/PasswordText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Password"
         android:textSize="20sp"
         android:paddingBottom="5dp"
-        android:paddingTop="10dp"
         android:textColor="#FFA800"/>
-    <EditText
-        android:id="@+id/PasswordEditText"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signUp_password"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
-        android:inputType="textPassword"
-        android:background="@drawable/rounded_edittext" />
+        android:inputType="textPassword">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="20sp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFA800"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signUp_address"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+
+        android:inputType="textPassword">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="fill_parent"

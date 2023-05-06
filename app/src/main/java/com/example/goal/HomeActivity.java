@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 welcomeMessageTextView.setText("Welcome, " + username + "!");
             }
         }
+
     }
 }
 
