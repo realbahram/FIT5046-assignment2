@@ -60,7 +60,6 @@
         android:padding="10dp"
         android:inputType="textPassword"
         android:background="@drawable/rounded_edittext" />
-
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="fill_parent"
