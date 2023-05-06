@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Goal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="Category">
+        <item>Select a category</item>
+        <item>Sport</item>
+        <item>Study</item>
+    </string-array>
 </resources>

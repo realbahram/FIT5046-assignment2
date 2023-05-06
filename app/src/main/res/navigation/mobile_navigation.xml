@@ -11,4 +11,8 @@
         android:id="@+id/nav_home_fragment"
         android:name="com.example.goal.fragment.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/add_goal_fragment"
+        android:name="com.example.goal.fragment.AddGoalFragment"
+        android:label="AddGoalFragment"/>
 </navigation>
