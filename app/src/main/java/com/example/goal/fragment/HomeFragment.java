@@ -9,10 +9,8 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.goal.databinding.HomeFragmentBinding;
-import com.example.goal.viewmodel.SharedViewModel;
 
 public class HomeFragment extends Fragment {
-    private SharedViewModel model;
     private HomeFragmentBinding addBinding;
     public HomeFragment(){}
     @Override

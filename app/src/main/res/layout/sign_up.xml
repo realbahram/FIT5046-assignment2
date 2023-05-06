@@ -91,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
+
         android:inputType="textPassword">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -98,7 +99,6 @@
             android:drawablePadding="10dp"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <Button
         android:id="@+id/signUpButton"
