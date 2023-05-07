@@ -53,21 +53,22 @@ public class HomeFragment extends Fragment {
     }
     private void showUserProfile(FirebaseUser firebaseUser){
         String useId = firebaseUser.getUid();
+        System.out.println();
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("User");
         referenceProfile.child(useId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Customer customer = snapshot.getValue(Customer.class);
                 if(customer != null){
-                    name = firebaseUser.getDisplayName();
-                    email = firebaseUser.getEmail();
-                    textViewWelcome.setText("Welcome" + name);
+                    name = customer.getName();
+                    email = customer.getEmail();
+                    textViewWelcome.setText("Welcome " + name + "!");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getActivity(), "something Gone wrong", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -7,6 +7,10 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Customer {
+    public Customer() {
+
+    }
+
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
