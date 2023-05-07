@@ -3,6 +3,7 @@ package com.example.goal.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -115,6 +116,8 @@ public class AddGoalFragment extends Fragment {
 
                 // Insert the goal using the GoalViewModel
                 goalViewModel.insertGoal(goal);
+
+                getActivity().onBackPressed();
             }
         });
 

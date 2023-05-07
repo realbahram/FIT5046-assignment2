@@ -2,7 +2,9 @@ package com.example.goal.recycler;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,49 +14,79 @@ import com.example.goal.R;
 import com.example.goal.entity.Goal;
 import com.example.goal.viewmodel.GoalViewModel;
 
-public class GoalAdapter extends RecyclerView.Adapter <RecyclerViewAdapter.ViewHolder> {
-    private Context context;
+import java.util.ArrayList;
+import java.util.List;
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.GoalViewHolder> {
+    private List<Goal> goals = new ArrayList<>();
     private GoalViewModel goalViewModel;
 
-    public RecyclerViewAdapter(Context context) {
-        this.context = context;
+    public RecyclerViewAdapter(GoalViewModel viewModel) {
+        this.goalViewModel = viewModel;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(Context context)
+    public GoalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.items_goals, parent, false);
+        return new GoalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
+        Goal goal = goals.get(position);
+        holder.bind(goal);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return goals.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtNameCard, txtNameCard2;
+    public class GoalViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(RvLayoutBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+        private TextView nameTextView;
+        private TextView categoryTextView;
+        private TextView tasksTextView;
+        private TextView startDateTextView;
+        private TextView endDateTextView;
+        private TextView priorityTextView;
+        private Button deleteButton;
 
-        ViewHolder(View itemView){
+        public GoalViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtNameCard=itemView.findViewById(R.id.txtNameCard);
-            txtNameCard2=itemView.findViewById(R.id.txtNameCard2);
+            deleteButton = itemView.findViewById(R.id.btnDelete);
+            nameTextView = itemView.findViewById(R.id.txtNameCard);
+            categoryTextView = itemView.findViewById(R.id.txtCategoryCard);
+            tasksTextView = itemView.findViewById(R.id.txtTasksCard);
+            startDateTextView = itemView.findViewById(R.id.txtStartDateCard);
+            endDateTextView = itemView.findViewById(R.id.txtEndDateCard);
+            priorityTextView = itemView.findViewById(R.id.txtPriorityCard);
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Goal goal = goals.get(position);
+                        goalViewModel.deleteGoal(goal);
+                    }
+                }
+            });
         }
 
-        void setDetails(Goal goal){
-            txtNameCard.setText(goal.getName());
-            txtNameCard2.setText(goal.getCategory());
+        public void bind(Goal goal) {
+            nameTextView.setText(goal.getName());
+            categoryTextView.setText(goal.getCategory());
+            tasksTextView.setText(goal.getTasks());
+            startDateTextView.setText("Start date: " + goal.getStartDate());
+            endDateTextView.setText("End date: " + goal.getEndDate());
+            priorityTextView.setText("Priority: " + goal.getPriority());
         }
     }
 }
-
-
