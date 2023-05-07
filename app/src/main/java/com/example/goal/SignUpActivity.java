@@ -26,6 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -65,15 +67,15 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (password.length() < 6) {
                     String msg = "Password is too short";
                 } else
-                    rootNode = FirebaseDatabase.getInstance();
-                    reference = rootNode.getReference("User");
-                    UserHelperClass helperClass = new UserHelperClass(name,email,password,address);
-                    reference.child(name).setValue(helperClass);
-                    registerUser(email, password);
+//                    rootNode = FirebaseDatabase.getInstance();
+//                    reference = rootNode.getReference("User");
+//                    UserHelperClass helperClass = new UserHelperClass(name,email,password,address);
+//                    reference.child(name).setValue(helperClass);
+                    registerUser(email, password,name,address);
             }
         });
     }
-    private void registerUser(String email_txt, String password_txt) {
+    private void registerUser(String email_txt, String password_txt,String name, String address) {
         // To create username and password
 
         auth.createUserWithEmailAndPassword(email_txt,password_txt).
@@ -81,6 +83,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    FirebaseUser firebaseuser = auth.getCurrentUser();
+                    rootNode = FirebaseDatabase.getInstance();
+                    reference = rootNode.getReference("User");
+                    Customer helperclass = new Customer(name,email_txt,address);
+                    //UserHelperClass helperClass = new UserHelperClass(name,email_txt,password_txt,address);
+                    reference.child(firebaseuser.getUid()).setValue(helperclass);
                     String msg = "Registration Successful";
                     startActivity(new Intent(SignUpActivity.this,
                             LoginActivity.class));
