@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,14 +23,28 @@
         android:paddingBottom="5dp"
         android:textColor="#FFA800"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailEditText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="domain@gmail.com"
         android:padding="10dp"
-        android:hint="temp@gmail.com"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/rounded_edittext" />
+        app:boxBackgroundColor="#FFA800">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+<!--    <EditText-->
+<!--        android:id="@+id/emailEditText"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:padding="10dp"-->
+<!--        android:hint="temp@gmail.com"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:background="@drawable/rounded_edittext" />-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,13 +53,29 @@
         android:paddingBottom="5dp"
         android:paddingTop="10dp"
         android:textColor="#FFA800"/>
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordEditText"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
         android:padding="10dp"
-        android:inputType="textPassword"
-        android:background="@drawable/rounded_edittext" />
+        app:boxBackgroundColor="#FFA800"
+        app:placeholderTextColor="#E10000">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+<!--    <EditText-->
+<!--        android:id="@+id/passwordEditText"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:padding="10dp"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:background="@drawable/rounded_edittext" />-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +86,7 @@
         android:id="@+id/LogIn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundshapebtn"
+        android:background="@drawable/round_shape_btn"
         android:layout_margin="10dp"
         android:text="Log In"
         />
@@ -71,7 +102,7 @@
         android:id="@+id/SignUpButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundshapebtn"
+        android:background="@drawable/round_shape_btn"
         android:layout_margin="10dp"
         android:text="Sign Up Now"
         />

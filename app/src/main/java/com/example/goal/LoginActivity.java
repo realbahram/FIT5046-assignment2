@@ -24,6 +24,7 @@ import com.example.goal.fragment.HomeFragment;
 import com.example.goal.repository.CustomerRepository;
 import com.example.goal.viewmodel.CustomerViewModel;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         db = CustomerDatabase.getInstance(this); // Initialize the database instance
-        EditText emailEditText = findViewById(R.id.emailEditText);
-        EditText passwordEditText = findViewById(R.id.passwordEditText);
+        TextInputLayout emailEditText = findViewById(R.id.emailEditText);
+        TextInputLayout passwordEditText = findViewById(R.id.passwordEditText);
         Button registerButton =findViewById(R.id.SignUpButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt_Email = emailEditText.getText().toString();
-                String txt_Pwd = passwordEditText.getText().toString();
+                String txt_Email = emailEditText.getEditText().getText().toString();
+                String txt_Pwd = passwordEditText.getEditText().getText().toString();
                 if(TextUtils.isEmpty(txt_Email)){
                     emailEditText.setError("email is required");
                     emailEditText.requestFocus();

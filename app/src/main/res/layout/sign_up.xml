@@ -1,127 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:padding="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textSize="40sp"
-        android:padding="5dp"
-        android:textColor="#FFA800"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="20sp"
-        android:paddingTop="50dp"
-        android:paddingBottom="5dp"
-        android:textColor="#FFA800"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signUp_name"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:hint="Full name"
-        android:inputType="textPersonName">
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:padding="5dp"
+            android:text="Sign Up"
+            android:textColor="#FFA800"
+            android:textSize="50sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="20sp"
-        android:paddingBottom="5dp"
-        android:textColor="#FFA800"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signUp_email"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:hint="domain@gmail.com"
-        android:inputType="textEmailAddress">
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="10dp"
-        android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="20sp"
-        android:paddingBottom="5dp"
-        android:textColor="#FFA800"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signUp_password"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:inputType="textPassword">
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingTop="25dp"
+            android:paddingBottom="5dp"
+            android:text="Name"
+            android:textColor="#FFA800"
+            android:textSize="20sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        android:textSize="20sp"
-        android:paddingBottom="5dp"
-        android:textColor="#FFA800"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signUp_address"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-
-        android:inputType="textPassword">
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUp_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Full name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            app:boxBackgroundColor="#FFC85C">
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/roundshapebtn"
-        android:layout_margin="10dp"
-        android:text="Create Account"
-        />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Already have an account?"
-        android:paddingTop="80dp"
-        android:textColor="#FFA800" />
-    <Button
-        android:id="@+id/LogInButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/roundshapebtn"
-        android:layout_margin="10dp"
-        android:text="Log In"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textSize="20sp"
+            android:paddingBottom="5dp"
+            android:textColor="#FFA800"/>
 
-</LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUp_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="domain@gmail.com"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            app:boxBackgroundColor="#FFC85C">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="20sp"
+            android:paddingBottom="5dp"
+            android:textColor="#FFC85C"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUp_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            app:boxBackgroundColor="#FFA800">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="20sp"
+            android:paddingBottom="5dp"
+            android:textColor="#FFC85C"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUp_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+
+            android:padding="10dp"
+            app:boxBackgroundColor="#FFA800">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_shape_btn"
+            android:layout_margin="10dp"
+            android:text="Create Account"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:paddingTop="80dp"
+            android:textColor="#FFA800" />
+        <Button
+            android:id="@+id/LogInButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Log In"
+            android:background="@drawable/round_shape_btn"
+            />
+
+    </LinearLayout>
+</ScrollView>

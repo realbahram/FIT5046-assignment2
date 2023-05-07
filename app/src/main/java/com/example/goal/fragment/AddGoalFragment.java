@@ -1,5 +1,6 @@
 package com.example.goal.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -23,7 +25,11 @@ import com.example.goal.R;
 import com.example.goal.entity.Goal;
 import com.example.goal.repository.GoalRepository;
 import com.example.goal.viewmodel.GoalViewModel;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,6 +41,9 @@ public class AddGoalFragment extends Fragment {
 
     private GoalViewModel goalViewModel;
     private TextView addedGoalTextView;
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
+    private DatePickerDialog picker;
 
     public AddGoalFragment() {
         // Required empty public constructor
@@ -52,15 +61,47 @@ public class AddGoalFragment extends Fragment {
 
         // Retrieve references to UI elements
         Spinner categorySpinner = rootView.findViewById(R.id.spinner3);
-        EditText nameEditText = rootView.findViewById(R.id.editTextName);
-        EditText tasksEditText = rootView.findViewById(R.id.editTextTasks);
-        EditText notesEditText = rootView.findViewById(R.id.editTextNotes);
+        TextInputLayout nameEditText = rootView.findViewById(R.id.editTextName);
+        TextInputLayout tasksEditText = rootView.findViewById(R.id.editTextTasks);
+        TextInputLayout notesEditText = rootView.findViewById(R.id.editTextNotes);
         EditText startDateEditText = rootView.findViewById(R.id.editTextStartDate);
         EditText endDateEditText = rootView.findViewById(R.id.editTextEndDate);
         RadioGroup priorityRadioGroup = rootView.findViewById(R.id.priority_radiogroup);
         Button addButton = rootView.findViewById(R.id.button4);
         addedGoalTextView = rootView.findViewById(R.id.added_goal_textview);
+        startDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+                picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        startDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
+                    }
+                },year,month,day);
+                picker.show();
+            }
+        });
 
+        endDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+                picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        startDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
+                    }
+                },year,month,day);
+                picker.show();
+            }
+        });
         // Set up the observer to listen for the goal insertion result
         final Observer<Boolean> goalInsertionObserver = new Observer<Boolean>() {
             @Override
@@ -68,11 +109,11 @@ public class AddGoalFragment extends Fragment {
                 if (isSuccess) {
                     Log.d("GoalViewModel", "Goal inserted successfully");
                     Toast.makeText(getActivity(), "Goal added successfully", Toast.LENGTH_SHORT).show();
-                    addedGoalTextView.setText(nameEditText.getText().toString()); // Display the added goal's name
+                    addedGoalTextView.setText(nameEditText.getEditText().getText().toString()); // Display the added goal's name
                     // Clear the input fields after successful insertion
-                    nameEditText.setText("");
-                    tasksEditText.setText("");
-                    notesEditText.setText("");
+                    nameEditText.getEditText().setText("");
+                    tasksEditText.getEditText().setText("");
+                    notesEditText.getEditText().setText("");
                     startDateEditText.setText("");
                     endDateEditText.setText("");
                     priorityRadioGroup.clearCheck();
@@ -91,9 +132,9 @@ public class AddGoalFragment extends Fragment {
             public void onClick(View v) {
                 // Retrieve user inputs
                 String category = categorySpinner.getSelectedItem().toString();
-                String name = nameEditText.getText().toString();
-                String tasks = tasksEditText.getText().toString();
-                String notes = notesEditText.getText().toString();
+                String name = nameEditText.getEditText().getText().toString();
+                String tasks = tasksEditText.getEditText().getText().toString();
+                String notes = notesEditText.getEditText().getText().toString();
                 String startDate = startDateEditText.getText().toString();
                 String endDate = endDateEditText.getText().toString();
 
@@ -116,7 +157,10 @@ public class AddGoalFragment extends Fragment {
 
                 // Insert the goal using the GoalViewModel
                 goalViewModel.insertGoal(goal);
-
+                /// get the current customer
+//                rootNode = FirebaseDatabase.getInstance();
+//                reference = rootNode.getReference("User");
+//                reference.child(firebaseuser.getUid()).setValue(goal);
                 getActivity().onBackPressed();
             }
         });

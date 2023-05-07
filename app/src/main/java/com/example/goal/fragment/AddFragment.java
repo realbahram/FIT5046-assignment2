@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.goal.databinding.AddFragmentBinding;
 
+import java.util.Calendar;
+
 
 public class AddFragment extends Fragment {
     private AddFragmentBinding addBinding;
@@ -19,6 +21,8 @@ public class AddFragment extends Fragment {
                              Bundle savedInstanceState) {
         addBinding = AddFragmentBinding.inflate(inflater, container, false);
         View view = addBinding.getRoot();
+
+
         addBinding.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

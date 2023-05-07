@@ -36,9 +36,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    TextInputLayout regName,regEmail,regAddress,regPassword;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
+    private TextInputLayout regName,regEmail,regAddress,regPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
