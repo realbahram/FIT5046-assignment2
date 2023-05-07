@@ -40,4 +40,14 @@ public class GoalViewModel extends AndroidViewModel {
             }
         });
     }
+    public void deleteGoal(Goal goal) {
+        goalRepository.deleteGoal(goal, new GoalRepository.DeletionCallback() {
+            @Override
+            public void onDeletionComplete(boolean isSuccess) {
+                //body
+            }
+        });
+    }
+
+
 }

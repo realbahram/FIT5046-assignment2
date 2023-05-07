@@ -27,6 +27,10 @@ public class GoalRepository {
         new InsertGoalAsyncTask(goalDao, callback).execute(goal);
     }
 
+    public void deleteGoal(Goal goal, DeletionCallback callback) {
+        new DeleteGoalAsyncTask(goalDao, callback).execute(goal);
+    }
+
     public LiveData<List<Goal>> getGoals() {
         return goalsLiveData;
     }
@@ -63,7 +67,39 @@ public class GoalRepository {
         }
     }
 
+    private static class DeleteGoalAsyncTask extends AsyncTask<Goal, Void, Boolean> {
+        private GoalDAO goalDao;
+        private DeletionCallback callback;
+
+        public DeleteGoalAsyncTask(GoalDAO goalDao, DeletionCallback callback) {
+            this.goalDao = goalDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(Goal... goals) {
+            try {
+                goalDao.deleteGoal(goals[0]);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            if (callback != null) {
+                callback.onDeletionComplete(isSuccess);
+            }
+        }
+    }
+
     public interface InsertionCallback {
         void onInsertionComplete(boolean isSuccess);
+    }
+
+    public interface DeletionCallback {
+        void onDeletionComplete(boolean isSuccess);
     }
 }

@@ -15,4 +15,8 @@
         android:id="@+id/add_goal_fragment"
         android:name="com.example.goal.fragment.AddGoalFragment"
         android:label="AddGoalFragment"/>
+    <fragment
+        android:id="@+id/all_goal_fragment"
+        android:name="com.example.goal.fragment.AllGoals"
+        android:label="AllGoalFragment"/>
 </navigation>
