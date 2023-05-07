@@ -1,15 +1,16 @@
 package com.example.goal.viewmodel;
 
 public class UserHelperClass {
-    String name,email,password;
+    String name,email,password,address;
 
     public UserHelperClass() {
     }
 
-    public UserHelperClass(String name, String email, String password) {
+    public UserHelperClass(String name, String email, String password,String address) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.address = address;
     }
 
     public String getName() {
@@ -22,6 +23,14 @@ public class UserHelperClass {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setName(String name) {

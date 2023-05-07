@@ -106,7 +106,12 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:padding="10dp"
-                    android:text="start date" />
+                    android:text="start date"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    />
             </LinearLayout>
 
             <LinearLayout

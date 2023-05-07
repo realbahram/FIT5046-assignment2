@@ -15,11 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.example.goal.viewmodel.UserHelperClass;
+//import com.example.goal.viewmodel.UserHelperClass;
 
 import com.example.goal.entity.Customer;
 import com.example.goal.viewmodel.CustomerViewModel;
 
+import com.example.goal.viewmodel.UserHelperClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
-    TextInputLayout regName,regEmail,redAddress,regPassword;
+    TextInputLayout regName,regEmail,regAddress,regPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         regName = findViewById(R.id.signUp_name);
         regEmail = findViewById(R.id.signUp_email);
         regPassword = findViewById(R.id.signUp_password);
+        regAddress = findViewById(R.id.signUp_address);
         registerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -56,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = regEmail.getEditText().getText().toString();
                 String password = regPassword.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
+                String address = regAddress.getEditText().getText().toString();
                 if (TextUtils.isEmpty(email) ||
                         TextUtils.isEmpty(password)) {
                     String msg = "Empty Username or Password";
@@ -64,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else
                     rootNode = FirebaseDatabase.getInstance();
                     reference = rootNode.getReference("User");
-                    UserHelperClass helperClass = new UserHelperClass(name,email,password);
+                    UserHelperClass helperClass = new UserHelperClass(name,email,password,address);
                     reference.child(name).setValue(helperClass);
                     registerUser(email, password);
             }
