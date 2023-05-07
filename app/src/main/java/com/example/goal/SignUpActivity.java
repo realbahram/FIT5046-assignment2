@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(new Intent(SignUpActivity.this,
                             LoginActivity.class));
                 }else {
-                    String msg = "Registration Unsuccessful";
+                    String msg = "There is a account with that email address!!";
                     toastMsg(msg);
                 }
             }
