@@ -152,7 +152,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="text"
                     android:padding="10dp"
                     android:hint="start date"
                     android:focusable="false"
@@ -180,7 +180,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="text"
                     android:padding="10dp"
                     android:focusable="false"
                     android:hint="end date" />

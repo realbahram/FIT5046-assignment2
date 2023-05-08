@@ -44,7 +44,6 @@ public class AddGoalFragment extends Fragment {
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     private DatePickerDialog picker;
-
     public AddGoalFragment() {
         // Required empty public constructor
     }
@@ -96,7 +95,7 @@ public class AddGoalFragment extends Fragment {
                 picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        startDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
+                        endDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
                     }
                 },year,month,day);
                 picker.show();
