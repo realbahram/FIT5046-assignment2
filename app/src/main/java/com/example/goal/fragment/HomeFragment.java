@@ -139,21 +139,16 @@ public class HomeFragment extends Fragment {
                     pieChart.getLegend().setEnabled(false);
                     pieChart.animateY(1000);
 
-                    pieChart.setCenterText(totalGoals + " Goal set");
-                    pieChart.setCenterTextSize(25f);
-
                     // Refresh the chart
                     pieChart.invalidate();
+
+                    // Hide the center text if goals are available
                     pieChart.setCenterText("");
                 } else {
-                    // Show a text message in the center of the pie chart
-                    pieChart.setCenterText("No goals available");
-                    pieChart.setCenterTextSize(16f);
-                    pieChart.setCenterTextColor(Color.GRAY);
-                    pieChart.setCenterTextRadiusPercent(100f);
-
-                    // Clear the chart data
+                    // Clear the chart data and set a message
                     pieChart.clear();
+                    pieChart.setNoDataText("Set a goal NOW!");
+                    pieChart.setNoDataTextColor(Color.GRAY);
                 }
             }
         });
