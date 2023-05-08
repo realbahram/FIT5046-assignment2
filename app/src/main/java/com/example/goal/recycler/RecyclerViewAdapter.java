@@ -1,10 +1,12 @@
 package com.example.goal.recycler;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView endDateTextView;
         private TextView priorityTextView;
         private Button deleteButton;
+        private Button completeButton;
+        private ImageView completionimg;
 
         public GoalViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +71,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             startDateTextView = itemView.findViewById(R.id.txtStartDateCard);
             endDateTextView = itemView.findViewById(R.id.txtEndDateCard);
             priorityTextView = itemView.findViewById(R.id.txtPriorityCard);
+            completeButton = itemView.findViewById(R.id.btnStatus);
+            completionimg = itemView.findViewById(R.id.compl_img);
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,6 +81,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     if (position != RecyclerView.NO_POSITION) {
                         Goal goal = goals.get(position);
                         goalViewModel.deleteGoal(goal);
+                    }
+                }
+            });
+            completeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Goal goal = goals.get(position);
+                        goal.setStatus("Complete"); // Update the goal status
+                        goalViewModel.updateGoalStatus(goal);
+                        notifyItemChanged(position);
+
                     }
                 }
             });
@@ -87,6 +106,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             startDateTextView.setText("Start date: " + goal.getStartDate());
             endDateTextView.setText("End date: " + goal.getEndDate());
             priorityTextView.setText("Priority: " + goal.getPriority());
+            if (goal.getStatus().equals("Complete")) {
+                completionimg.setVisibility(View.VISIBLE);
+            } else {
+                completionimg.setVisibility(View.GONE);
+            }
+
         }
+
     }
 }
+

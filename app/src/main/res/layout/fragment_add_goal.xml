@@ -38,7 +38,7 @@
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full name"
+            android:hint="Complete homework"
             android:inputType="textPersonName"
             android:padding="10dp"
             app:boxBackgroundColor="#FFC85C">
@@ -70,7 +70,7 @@
             android:id="@+id/editTextTasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full name"
+            android:hint=""
             android:inputType="textPersonName"
             android:padding="10dp"
             app:boxBackgroundColor="#FFC85C">
@@ -102,7 +102,7 @@
             android:id="@+id/editTextNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full name"
+            android:hint="Any notes?"
             android:inputType="textPersonName"
             android:padding="10dp"
             app:boxBackgroundColor="#FFC85C">
