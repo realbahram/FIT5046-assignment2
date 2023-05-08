@@ -35,10 +35,13 @@ public class Goal {
     @ColumnInfo(name = "priority")
     private String priority;
 
+    @ColumnInfo(name = "status")
+    private String status;
+
     // ... constructors, getters, and setters
 
     public Goal( String category, String name, String tasks, String notes,
-                String startDate, String endDate, String priority) {
+                String startDate, String endDate, String priority, String status) {
         this.category = category;
         this.name = name;
         this.tasks = tasks;
@@ -46,6 +49,7 @@ public class Goal {
         this.startDate = startDate;
         this.endDate = endDate;
         this.priority = priority;
+        this.status = status;
     }
 
     public int getId() {
@@ -112,9 +116,17 @@ public class Goal {
     public void setPriority(String priority) {
         this.priority = priority;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
 
 
 
 
-    // ... getters and setters
+

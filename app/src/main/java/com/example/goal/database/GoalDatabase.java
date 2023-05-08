@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.goal.dao.GoalDAO;
 import com.example.goal.entity.Customer;
 import com.example.goal.entity.Goal;
-@Database(entities = {Customer.class, Goal.class}, version = 1)
+@Database(entities = {Customer.class, Goal.class}, version = 2)
 public abstract class GoalDatabase extends RoomDatabase {
     private static GoalDatabase instance;
 
