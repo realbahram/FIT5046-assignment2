@@ -40,6 +40,7 @@ public class AllGoals extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_all_goals, container, false);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
+        //goalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
         goalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
 
         recyclerViewAdapter = new RecyclerViewAdapter(goalViewModel);
@@ -47,9 +48,6 @@ public class AllGoals extends Fragment {
         // Set up the RecyclerView with a layout manager and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerViewAdapter);
-
-        // Initialize the GoalViewModel
-        goalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
 
         // Observe the goals LiveData in the GoalViewModel
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {

@@ -58,4 +58,17 @@ public class GoalViewModel extends AndroidViewModel {
             }
         });
     }
+    public List<Goal> getGoalsSync() {
+        try {
+            return goalRepository.getGoalsSync(new GoalRepository.GetGoalsSyncCallback() {
+                @Override
+                public void onGetGoalsSyncComplete(List<Goal> goals) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
