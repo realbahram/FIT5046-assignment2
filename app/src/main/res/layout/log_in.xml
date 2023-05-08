@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:hint="domain@gmail.com"
         android:padding="10dp"
-        app:boxBackgroundColor="#FFA800">
+        app:boxBackgroundColor="#FFC85C">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:hint="password"
         android:padding="10dp"
-        app:boxBackgroundColor="#FFA800"
+        app:boxBackgroundColor="#FFC85C"
         app:placeholderTextColor="#E10000">
 
         <com.google.android.material.textfield.TextInputEditText

@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:padding="10dp"
-            app:boxBackgroundColor="#FFA800">
+            app:boxBackgroundColor="#FFC85C">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
             android:inputType="textPassword"
 
             android:padding="10dp"
-            app:boxBackgroundColor="#FFA800">
+            app:boxBackgroundColor="#FFC85C">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

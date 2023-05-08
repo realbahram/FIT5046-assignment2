@@ -14,7 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 //import com.example.goal.viewmodel.UserHelperClass;
 
 import com.example.goal.entity.Customer;
@@ -26,6 +27,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +43,9 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
     private TextInputLayout regName,regEmail,regAddress,regPassword;
+    private static final String PASSWORD_PATTERN =
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,12 @@ public class SignUpActivity extends AppCompatActivity {
         regEmail = findViewById(R.id.signUp_email);
         regPassword = findViewById(R.id.signUp_password);
         regAddress = findViewById(R.id.signUp_address);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+            }
+        });
         registerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -61,10 +74,14 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = regPassword.getEditText().getText().toString();
                 String name = regName.getEditText().getText().toString();
                 String address = regAddress.getEditText().getText().toString();
+                Matcher match = pattern.matcher(password);
+                boolean matchFound = match.find();
                 if (TextUtils.isEmpty(email) ||
                         TextUtils.isEmpty(password)) {
                     String msg = "Empty Username or Password";
-                } else if (password.length() < 6) {
+                } else if (!matchFound) {
+                    regPassword.setError("password is too short");
+                    regPassword.requestFocus();
                     String msg = "Password is too short";
                 } else
 //                    rootNode = FirebaseDatabase.getInstance();
@@ -74,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                     registerUser(email, password,name,address);
             }
         });
+
     }
     private void registerUser(String email_txt, String password_txt,String name, String address) {
         // To create username and password
@@ -93,8 +111,18 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(new Intent(SignUpActivity.this,
                             LoginActivity.class));
                 }else {
-                    String msg = "There is a account with that email address!!";
-                    toastMsg(msg);
+                    try{
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidCredentialsException e){
+                        regEmail.setError("email and password do not match");
+                        regEmail.requestFocus();
+                        //regPassword.requestFocus();
+                    }catch (FirebaseAuthUserCollisionException e){
+                        regEmail.setError("user does not exist");
+                    }catch (Exception e){
+                        String msg = "registration unsuccessful!!";
+                        toastMsg(msg);
+                    }
                 }
             }
         });
