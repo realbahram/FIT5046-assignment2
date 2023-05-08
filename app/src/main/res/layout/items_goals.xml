@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+
         <ImageView
             android:id="@+id/compl_img"
             android:layout_width="24dp"
