@@ -27,6 +27,10 @@ public class GoalRepository {
         new InsertGoalAsyncTask(goalDao, callback).execute(goal);
     }
 
+    public void updateGoalStatus(Goal goal, UpdateStatusCallback callback) {
+        new UpdateGoalStatusAsyncTask(goalDao, callback).execute(goal);
+    }
+
     public void deleteGoal(Goal goal, DeletionCallback callback) {
         new DeleteGoalAsyncTask(goalDao, callback).execute(goal);
     }
@@ -101,5 +105,39 @@ public class GoalRepository {
 
     public interface DeletionCallback {
         void onDeletionComplete(boolean isSuccess);
+    }
+
+
+    private static class UpdateGoalStatusAsyncTask extends AsyncTask<Goal, Void, Boolean> {
+        private GoalDAO goalDao;
+        private UpdateStatusCallback callback;
+
+        public UpdateGoalStatusAsyncTask(GoalDAO goalDao, UpdateStatusCallback callback) {
+            this.goalDao = goalDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(Goal... goals) {
+            try {
+                goals[0].setStatus("Complete"); // Change the status to "Complete"
+                goalDao.updateGoal(goals[0]);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            if (callback != null) {
+                callback.onStatusUpdateComplete(isSuccess);
+            }
+        }
+    }
+
+    public interface UpdateStatusCallback {
+        void onStatusUpdateComplete(boolean isSuccess);
     }
 }

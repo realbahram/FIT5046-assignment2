@@ -40,6 +40,7 @@ public class GoalViewModel extends AndroidViewModel {
             }
         });
     }
+
     public void deleteGoal(Goal goal) {
         goalRepository.deleteGoal(goal, new GoalRepository.DeletionCallback() {
             @Override
@@ -49,5 +50,12 @@ public class GoalViewModel extends AndroidViewModel {
         });
     }
 
-
+    public void updateGoalStatus(Goal goal) {
+        goalRepository.updateGoalStatus(goal, new GoalRepository.UpdateStatusCallback() {
+            @Override
+            public void onStatusUpdateComplete(boolean isSuccess) {
+                // Handle the completion of the status update
+            }
+        });
+    }
 }

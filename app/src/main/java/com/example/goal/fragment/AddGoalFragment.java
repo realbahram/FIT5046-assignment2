@@ -136,6 +136,7 @@ public class AddGoalFragment extends Fragment {
                 String notes = notesEditText.getEditText().getText().toString();
                 String startDate = startDateEditText.getText().toString();
                 String endDate = endDateEditText.getText().toString();
+                String status = "Incomplete";
 
                 // Determine the selected priority
                 int priorityId = priorityRadioGroup.getCheckedRadioButtonId();
@@ -152,7 +153,7 @@ public class AddGoalFragment extends Fragment {
                 }
 
                 // Create a new Goal object
-                Goal goal = new Goal(category, name, tasks, notes, startDate, endDate, priority);
+                Goal goal = new Goal(category, name, tasks, notes, startDate, endDate, priority, status);
 
                 // Insert the goal using the GoalViewModel
                 goalViewModel.insertGoal(goal);
