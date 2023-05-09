@@ -43,6 +43,15 @@ public class GoalRepository {
         return goalInsertionLiveData;
     }
 
+    public List<Goal> getGoalsSync(GetGoalsSyncCallback callback) {
+        try {
+            return new GetGoalsSyncAsyncTask(goalDao, callback).execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private static class InsertGoalAsyncTask extends AsyncTask<Goal, Void, Boolean> {
         private GoalDAO goalDao;
         private InsertionCallback callback;
@@ -139,5 +148,31 @@ public class GoalRepository {
 
     public interface UpdateStatusCallback {
         void onStatusUpdateComplete(boolean isSuccess);
+    }
+
+    private static class GetGoalsSyncAsyncTask extends AsyncTask<Void, Void, List<Goal>> {
+        private GoalDAO goalDao;
+        private GetGoalsSyncCallback callback;
+
+        public GetGoalsSyncAsyncTask(GoalDAO goalDao, GetGoalsSyncCallback callback) {
+            this.goalDao = goalDao;
+            this.callback = callback;
+        }
+
+        @Override
+        protected List<Goal> doInBackground(Void... voids) {
+            return goalDao.getAllGoalsSync();
+        }
+
+        @Override
+        protected void onPostExecute(List<Goal> goals) {
+            if (callback != null) {
+                callback.onGetGoalsSyncComplete(goals);
+            }
+        }
+    }
+
+    public interface GetGoalsSyncCallback {
+        void onGetGoalsSyncComplete(List<Goal> goals);
     }
 }
