@@ -8,8 +8,8 @@
         android:id="@+id/textviewQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dasd"
-        android:textSize="5sp"/>
+        android:text="Quote"
+        android:textSize="15sp"/>
     <TextView
         android:id="@+id/text_message"
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.example.goal.fragment;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,16 +100,20 @@ public class HomeFragment extends Fragment {
 ////            }
 ////        });
 ////        retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Call<List<TheySaidSoAPI>>())
-        retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Callback<TheySaidSoAPI>() {
+        retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Callback<ArrayList<TheySaidSoAPI>>() {
             @Override
-            public void onResponse(Call<TheySaidSoAPI> call, Response<TheySaidSoAPI> response) {
-                textViewQuote.setText("sdasdasdasdasd");
-                //textViewQuote.setText(response.body().quote);
+            public void onResponse(Call<ArrayList<TheySaidSoAPI> >call, Response<ArrayList<TheySaidSoAPI>> response) {
+               // Log.i("RetrofitResponse", "onResponse: " + response.body().get(0).getQuote());
+                //textViewQuote.setText("sdasdasdasdasd");
+                textViewQuote.setText(response.body().get(0).getQuote());
             }
 
             @Override
-            public void onFailure(Call<TheySaidSoAPI> call, Throwable t) {
-                textViewQuote.setText(t.getMessage());
+            public void onFailure(Call<ArrayList<TheySaidSoAPI>> call, Throwable t) {
+
+                Log.i("RetrofitResponse", "onFail: " + t.getMessage());
+
+               // textViewQuote.setText(t.getMessage());
             }
         });
 
