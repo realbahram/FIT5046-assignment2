@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,6 +130,7 @@ public class AddGoalFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int flag = 0;
                 // Retrieve user inputs
                 String category = categorySpinner.getSelectedItem().toString();
                 String name = nameEditText.getEditText().getText().toString();
@@ -137,7 +139,21 @@ public class AddGoalFragment extends Fragment {
                 String startDate = startDateEditText.getText().toString();
                 String endDate = endDateEditText.getText().toString();
                 String status = "Incomplete";
-
+                if(TextUtils.isEmpty(name)){
+                    nameEditText.setError("Name cant be empty");
+                    nameEditText.requestFocus();
+                    flag = 1;
+                }
+                if (TextUtils.isEmpty(tasks)){
+                    tasksEditText.setError("cant be empty");
+                    tasksEditText.requestFocus();
+                    flag = 1;
+                }
+                if(category == "Select a category"){
+                    Toast.makeText(getActivity(), "Select a category", Toast.LENGTH_SHORT).show();
+                    categorySpinner.requestFocus();
+                    flag = 1;
+                }
                 // Determine the selected priority
                 int priorityId = priorityRadioGroup.getCheckedRadioButtonId();
                 String priority;
@@ -148,20 +164,24 @@ public class AddGoalFragment extends Fragment {
                 } else if (priorityId == R.id.low_priority_radiobutton) {
                     priority = "Low";
                 } else {
+                    Toast.makeText(getActivity(), "select priority", Toast.LENGTH_SHORT).show();
                     // Default to empty string if no priority is selected
+                    priorityRadioGroup.requestFocus();
+                    flag = 1;
                     priority = "";
                 }
+                if (flag == 0) {
+                    // Create a new Goal object
+                    Goal goal = new Goal(category, name, tasks, notes, startDate, endDate, priority, status);
 
-                // Create a new Goal object
-                Goal goal = new Goal(category, name, tasks, notes, startDate, endDate, priority, status);
-
-                // Insert the goal using the GoalViewModel
-                goalViewModel.insertGoal(goal);
-                /// get the current customer
+                    // Insert the goal using the GoalViewModel
+                    goalViewModel.insertGoal(goal);
+                    /// get the current customer
 //                rootNode = FirebaseDatabase.getInstance();
 //                reference = rootNode.getReference("User");
 //                reference.child(firebaseuser.getUid()).setValue(goal);
-                getActivity().onBackPressed();
+                    getActivity().onBackPressed();
+                }
             }
         });
 
