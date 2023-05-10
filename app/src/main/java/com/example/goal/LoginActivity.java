@@ -35,9 +35,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkRequest;
+
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
+    private WorkRequest uploadWorkRequest;
     private FirebaseAuth auth;
     private CustomerDatabase db; // Add a field for the database
     private CustomerViewModel customerViewModel;
@@ -54,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         Button registerButton =findViewById(R.id.SignUpButton);
+
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
