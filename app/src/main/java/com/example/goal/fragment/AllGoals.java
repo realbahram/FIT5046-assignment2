@@ -49,6 +49,7 @@ public class AllGoals extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerViewAdapter);
 
+
         // Observe the goals LiveData in the GoalViewModel
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
