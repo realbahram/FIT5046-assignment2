@@ -121,7 +121,6 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity(), "not Found the user information", Toast.LENGTH_SHORT).show();
         } else {
             showUserProfile(firebaseUser);
-            updatePieChart();
         }
         return view;
     }
@@ -158,57 +157,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updatePieChart() {
-        goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
-            @Override
-            public void onChanged(List<Goal> goals) {
-                if (goals != null && !goals.isEmpty()) {
-                    // Calculate the completion status
-                    int completedGoals = 0;
-                    int totalGoals = goals.size();
-                    for (Goal goal : goals) {
-                        if (goal.getStatus().equals("Complete")) {
-                            completedGoals++;
-                        }
-                    }
-                    int incompleteGoals = totalGoals - completedGoals;
-
-                    // Update the pie chart
-                    ArrayList<PieEntry> entries = new ArrayList<>();
-                    entries.add(new PieEntry((float) completedGoals, "Complete"));
-                    entries.add(new PieEntry((float) incompleteGoals, "Incomplete"));
-
-                    PieDataSet dataSet = new PieDataSet(entries, "Goal Completion");
-                    dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-                    dataSet.setDrawValues(true);
-
-                    PieData data = new PieData(dataSet);
-                    data.setValueTextSize(12f);
-                    data.setValueTextColor(Color.WHITE);
-
-                    pieChart.setData(data);
-                    pieChart.getDescription().setEnabled(false);
-                    pieChart.setDrawHoleEnabled(true);
-                    pieChart.setHoleColor(Color.TRANSPARENT);
-                    pieChart.setTransparentCircleRadius(0f);
-                    pieChart.setDrawEntryLabels(false);
-                    pieChart.getLegend().setEnabled(false);
-                    pieChart.animateY(1000);
-
-                    // Refresh the chart
-                    pieChart.invalidate();
-
-                    // Hide the center text if goals are available
-                    pieChart.setCenterText("");
-                } else {
-                    // Clear the chart data and set a message
-                    pieChart.clear();
-                    pieChart.setNoDataText("Set a goal NOW!");
-                    pieChart.setNoDataTextColor(Color.GRAY);
-                }
-            }
-        });
-    }
 }
 
 

@@ -76,6 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String address = regAddress.getEditText().getText().toString();
                 Matcher match = pattern.matcher(password);
                 boolean matchFound = match.find();
+                matchFound = true;
                 if (TextUtils.isEmpty(email) ||
                         TextUtils.isEmpty(password)) {
                     String msg = "Empty Username or Password";

@@ -13,5 +13,8 @@
         android:title="Add Goal"/>
     <item
         android:id="@+id/all_goal_fragment"
-        android:title="All Goal"/>
+        android:title="All Goals"/>
+    <item
+        android:id="@+id/graph_fragment"
+        android:title="Graph"/>
 </menu>
