@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         // Create a ViewModelProvider to get the CustomerViewModel instance
 
         // Use an AsyncTask to retrieve the customer info from Room database
-        new GetCustomerAsyncTask().execute(email);
+        //new GetCustomerAsyncTask().execute(email);
     }
 
     private class GetCustomerAsyncTask extends AsyncTask<String, Void, Customer> {

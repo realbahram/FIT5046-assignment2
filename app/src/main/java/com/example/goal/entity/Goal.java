@@ -4,11 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-//@Entity(tableName = "goal",
-        //foreignKeys = @ForeignKey(entity = Customer.class,
-                //parentColumns = "id",
-                //childColumns = "uid",
-                //onDelete = ForeignKey.CASCADE))
 @Entity(tableName = "goal")
 public class Goal {
     @PrimaryKey(autoGenerate = true)

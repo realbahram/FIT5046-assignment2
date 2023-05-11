@@ -45,6 +45,10 @@ public class CustomerViewModel extends AndroidViewModel {
         return CustomerRepository.getCustomerByEmail(email);
     }
 
+    public LiveData<Customer> getCustomerlByEmail(String email){
+        return customerRepository.getCustomerlByEmail(email);
+    }
+
     public void setCustomer(Customer customer) {
         customerRepository.setCustomer(customer);
     }

@@ -24,6 +24,7 @@ import com.example.goal.entity.Customer;
 import com.example.goal.fragment.HomeFragment;
 import com.example.goal.repository.CustomerRepository;
 import com.example.goal.viewmodel.CustomerViewModel;
+import com.example.goal.viewmodel.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,12 +46,14 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private CustomerDatabase db; // Add a field for the database
     private CustomerViewModel customerViewModel;
+    private UserViewModel userViewModel;
 
     private  TextInputLayout emailEditText,passwordEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
@@ -113,9 +116,30 @@ public class LoginActivity extends AppCompatActivity {
                     String address = "dummy";
                     int id = 0;
                     Customer customer = new Customer(id, name, email, address);
-                    customerViewModel.insert(customer);
+                    //customerViewModel.insert(customer);
                     // Insert the Customer object into the Room database using AsyncTask
-                    new InsertCustomerTask().execute(customer);
+                    //new InsertCustomerTask().execute(customer);
+
+                    customerViewModel.getCustomerlByEmail(email).observe(LoginActivity.this, new Observer<Customer>() {
+                        @Override
+                        public void onChanged(Customer customer) {
+                            if (customer != null) {
+                                // Insert the customer into the UserViewModel
+                                userViewModel.setUserId(customer.getUid());
+                                userViewModel.setUserName(customer.getName());
+                                userViewModel.setUserEmail(customer.getEmail());
+                                userViewModel.setUserAdd(customer.getAddress());
+
+                                Log.d("LoginActivity", "NEW ID: " + userViewModel.getUserId());
+                                Log.d("LoginActivity", "NEW Name: " + userViewModel.getUserName());
+                                Log.d("LoginActivity", "NEW Email: " + userViewModel.getUserEmail());
+                                Log.d("LoginActivity", "NEW Address: " + userViewModel.getUserAdd());
+                            }
+                        }
+                    });
+
+
+
 
                     // Pass the name to the HomeActivity on the UI thread using a Handler
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -132,10 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("email", finalEmail);
                             startActivity(intent);
 
-                            //CustomerRepository customerRepository = new CustomerRepository(getApplication());
-                            //List<Customer> allCustomers = customerRepository.getAllCustomersList();
 
-                            //for (Customer customer : allCustomers) {
                         }
                     });
                 }else {
@@ -154,59 +175,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        auth.signInWithEmailAndPassword(txt_email, txt_pwd).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-//            @Override
-//            public void onSuccess(AuthResult authResult) {
-//                String msg = "Login Successful";
-//                toastMsg(msg);
-//
-//                FirebaseAuth auth = FirebaseAuth.getInstance();
-//                FirebaseUser user = auth.getCurrentUser();
-//                String name;
-//                if (user != null) {
-//                    name = user.getDisplayName();
-//                    if (name == null) {
-//                        name = "User";
-//                    }
-//                } else {
-//                    name = "User";
-//                }
-//
-//                String email = user.getEmail();
-//                if (email == null) {
-//                    email = "Unknown";
-//                }
-//                //Log.d("LoginActivity", "Customer Name: " +  name);
-//                String address = "dummy";
-//                Customer customer = new Customer(name, email, address);
-//                customerViewModel.insert(customer);
-//                // Insert the Customer object into the Room database using AsyncTask
-//                new InsertCustomerTask().execute(customer);
-//
-//                // Pass the name to the HomeActivity on the UI thread using a Handler
-//                Handler handler = new Handler(Looper.getMainLooper());
-//                String finalName = name;
-//                String finalEmail = email;
-//                Log.d("LoginActivity", "Customer Name: " +  finalName);
-//                Log.d("LoginActivity", "Customer Email: " +  finalEmail);
-//
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                        intent.putExtra("name", finalName);
-//                        intent.putExtra("email", finalEmail);
-//                        startActivity(intent);
-//
-//                        //CustomerRepository customerRepository = new CustomerRepository(getApplication());
-//                        //List<Customer> allCustomers = customerRepository.getAllCustomersList();
-//
-//                        //for (Customer customer : allCustomers) {
-//                    }
-//            });
-//            }
-//        });
     }
 
     // Define an AsyncTask to insert a Customer object into the Room database

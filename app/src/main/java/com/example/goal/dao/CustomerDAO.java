@@ -36,7 +36,10 @@ public interface CustomerDAO {
 
     @Query("SELECT * FROM customer WHERE email = :email")
     Customer getCustomerByEmailSync(String email);
+    @Query("SELECT * FROM customer WHERE email = :email LIMIT 1")
+    LiveData<Customer> getCustomerByEmail(String email);
 }
+
 
 
 
