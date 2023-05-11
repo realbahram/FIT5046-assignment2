@@ -78,7 +78,6 @@ public class HomeFragment extends Fragment {
         textViewQuote = view.findViewById(R.id.textviewQuote);
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
-        pieChart = view.findViewById(R.id.pieChart);
         uploadWorkRequest = new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS).build();
 
         Retrofit retrofit = new Retrofit.Builder()

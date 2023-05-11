@@ -12,7 +12,7 @@ import com.example.goal.entity.Customer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Customer.class}, version = 2, exportSchema = false)
+@Database(entities = {Customer.class}, version = 3, exportSchema = false)
 public abstract class CustomerDatabase extends RoomDatabase {
     public abstract CustomerDAO customerDao();
     private static CustomerDatabase INSTANCE;

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Customer {
+
     public Customer() {
 
     }
@@ -26,7 +27,12 @@ public class Customer {
     @NonNull
     private String address;
 
-    public Customer(@NonNull String name, @NonNull String email, @NonNull String address) {
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public Customer(@NonNull int id, @NonNull String name, @NonNull String email, @NonNull String address) {
+        this.uid = id;
         this.name = name;
         this.email = email;
         this.address = address;

@@ -111,7 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     //Log.d("LoginActivity", "Customer Name: " +  name);
                     String address = "dummy";
-                    Customer customer = new Customer(name, email, address);
+                    int id = 0;
+                    Customer customer = new Customer(id, name, email, address);
                     customerViewModel.insert(customer);
                     // Insert the Customer object into the Room database using AsyncTask
                     new InsertCustomerTask().execute(customer);

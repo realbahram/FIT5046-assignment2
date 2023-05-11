@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 //import com.example.goal.viewmodel.UserHelperClass;
@@ -32,8 +33,11 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -105,9 +109,15 @@ public class SignUpActivity extends AppCompatActivity {
                     FirebaseUser firebaseuser = auth.getCurrentUser();
                     rootNode = FirebaseDatabase.getInstance();
                     reference = rootNode.getReference("User");
-                    Customer helperclass = new Customer(name,email_txt,address);
+                    int userId = generateUserId();
+                    Customer helperclass = new Customer(userId, name,email_txt,address);
                     //UserHelperClass helperClass = new UserHelperClass(name,email_txt,password_txt,address);
-                    reference.child(firebaseuser.getUid()).setValue(helperclass);
+                    //reference.child(firebaseuser.getUid()).setValue(helperclass);
+
+                    CustomerViewModel customerViewModel = new ViewModelProvider(SignUpActivity.this).get(CustomerViewModel.class);
+                    customerViewModel.insert(helperclass);
+
+                    reference.child(String.valueOf(userId)).setValue(helperclass);
                     String msg = "Registration Successful";
                     startActivity(new Intent(SignUpActivity.this,
                             LoginActivity.class));
@@ -127,6 +137,35 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private int generateUserId() {
+        // Get a reference to the "users" node in the Firebase Realtime Database
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+        // Generate a random ID and check if it already exists in the database
+        int userId;
+        do {
+            // Generate a random ID between 10000 and 99999 (inclusive)
+            userId = new Random().nextInt(90000) + 10000;
+        } while (isUserIdExists(usersRef, userId));
+
+        return userId;
+    }
+
+    private boolean isUserIdExists(DatabaseReference usersRef, int userId) {
+        final boolean[] exists = {false};
+        usersRef.child(String.valueOf(userId)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                exists[0] = snapshot.exists();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        return exists[0];
     }
     public void toastMsg(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
