@@ -4,21 +4,17 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/nav_home_fragment">
     <fragment
-        android:id="@+id/nav_add_fragment"
-        android:name="com.example.goal.fragment.AddFragment"
-        android:label="AddFragment" />
-    <fragment
         android:id="@+id/nav_home_fragment"
         android:name="com.example.goal.fragment.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="DASHBOARD" />
     <fragment
         android:id="@+id/add_goal_fragment"
         android:name="com.example.goal.fragment.AddGoalFragment"
-        android:label="AddGoalFragment"/>
+        android:label="Add Your Goals"/>
     <fragment
         android:id="@+id/all_goal_fragment"
         android:name="com.example.goal.fragment.AllGoals"
-        android:label="AllGoalFragment"/>
+        android:label="All Goals"/>
     <fragment
         android:id="@+id/graph_fragment"
         android:name="com.example.goal.fragment.Graph"

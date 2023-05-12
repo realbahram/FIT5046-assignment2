@@ -35,8 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBar.toolbar);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home_fragment,
-                R.id.nav_add_fragment)
+                R.id.nav_home_fragment)
                 .setOpenableLayout(binding.drawerLayout)
                 .build();
 
@@ -75,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
             if (customer != null) {
                 // Display the welcome message with the name in a TextView
                 TextView welcomeMessageTextView = findViewById(R.id.welcome_message_textview);
-                welcomeMessageTextView.setText("Welcome, " + username + "!");
+                welcomeMessageTextView.setText(username);
             }
         }
 
