@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         cus_name = sharedPreferences.getString("customername", "");
         //Log.d("customernametest", "customernametest: " + cus_name);
-        textViewWelcome.setText("Welcome " + cus_name + "!");
+        textViewWelcome.setText(cus_name +", " +"embark on your goals!");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/")
                 .addConverterFactory(GsonConverterFactory.create())
