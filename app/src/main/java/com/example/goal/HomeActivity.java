@@ -1,5 +1,6 @@
 package com.example.goal;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -49,14 +50,25 @@ public class HomeActivity extends AppCompatActivity {
                 mAppBarConfiguration);
 
         String email = getIntent().getStringExtra("email");
-
-        // Create a ViewModelProvider to get the CustomerViewModel instance
-
-        // Use an AsyncTask to retrieve the customer info from Room database
-        //new GetCustomerAsyncTask().execute(email);
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+    private void logout() {
+        // Implement your logout logic here
+        // For example, clear user session and navigate to login screen
+        // ...
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-    private class GetCustomerAsyncTask extends AsyncTask<String, Void, Customer> {
+
+private class GetCustomerAsyncTask extends AsyncTask<String, Void, Customer> {
         @Override
         protected Customer doInBackground(String... params) {
             String email = params[0];
