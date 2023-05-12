@@ -1,32 +1,45 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="#ffffff">
+
     <TextView
         android:id="@+id/textviewQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/button_trigger"
+        android:layout_centerHorizontal="true"
         android:text="Quote"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/text_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/textviewQuote"
         android:textSize="20sp"
         android:text="This is Home Page"
-        android:gravity="center_horizontal"
-        android:layout_gravity="top"/>
+        android:gravity="center_horizontal" />
+
     <TextView
         android:id="@+id/welcome_message_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/text_message"
         android:textSize="16sp"
         android:textColor="#000000"
         android:text="Welcome, [Name]!"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp" />
-</LinearLayout>
 
+    <Button
+        android:id="@+id/button_trigger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sync my goals"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
+
+</RelativeLayout>

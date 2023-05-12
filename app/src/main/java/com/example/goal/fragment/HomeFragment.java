@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
 import com.example.goal.R;
@@ -29,6 +30,7 @@ import com.example.goal.repository.TheySaidSoAPI;
 import com.example.goal.retrofit.RetrofitInterface;
 import com.example.goal.viewmodel.CustomerViewModel;
 import com.example.goal.viewmodel.GoalViewModel;
+import com.example.goal.worker.FirebaseWriteWorker;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -78,7 +80,7 @@ public class HomeFragment extends Fragment {
         textViewQuote = view.findViewById(R.id.textviewQuote);
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
-        uploadWorkRequest = new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS).build();
+        uploadWorkRequest = new PeriodicWorkRequest.Builder(FirebaseWriteWorker.class, 1, TimeUnit.DAYS).build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/")
@@ -115,6 +117,16 @@ public class HomeFragment extends Fragment {
                // textViewQuote.setText(t.getMessage());
             }
         });
+
+        Button triggerButton = view.findViewById(R.id.button_trigger);
+        triggerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest);
+                Toast.makeText(requireContext(), "WorkManager job triggered", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         if (firebaseUser == null) {
             Toast.makeText(getActivity(), "not Found the user information", Toast.LENGTH_SHORT).show();
@@ -155,6 +167,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
 }
 

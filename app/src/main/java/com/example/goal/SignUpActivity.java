@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +45,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class SignUpActivity extends AppCompatActivity {
+    private static final String TAG = "HomeFragment";
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
@@ -109,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                     FirebaseUser firebaseuser = auth.getCurrentUser();
                     rootNode = FirebaseDatabase.getInstance();
                     reference = rootNode.getReference("User");
+                    Log.d(TAG, "writeDataToFirebase() - Customer data written to Firebase at " + new Date().toString());
                     int userId = generateUserId();
                     Customer helperclass = new Customer(userId, name,email_txt,address);
                     //UserHelperClass helperClass = new UserHelperClass(name,email_txt,password_txt,address);
