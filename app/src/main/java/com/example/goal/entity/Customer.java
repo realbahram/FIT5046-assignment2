@@ -67,4 +67,14 @@ public class Customer {
     public void setAddress(@NonNull String address) {
         this.address = address;
     }
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
 }

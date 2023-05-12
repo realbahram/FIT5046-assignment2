@@ -1,11 +1,11 @@
 package com.example.goal.fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,8 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goal.R;
+import com.example.goal.dao.GoalDAO;
 import com.example.goal.entity.Goal;
-import com.example.goal.repository.GoalRepository;
 import com.example.goal.viewmodel.GoalViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,9 +44,12 @@ public class AddGoalFragment extends Fragment {
 
     private GoalViewModel goalViewModel;
     private TextView addedGoalTextView;
+    private GoalDAO goalDao;
+    private int userId;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     private DatePickerDialog picker;
+
     public AddGoalFragment() {
         // Required empty public constructor
     }
@@ -57,7 +62,10 @@ public class AddGoalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_goal, container, false);
+        //SharedPreferences sharedPreferences = ((LoginActivity) requireActivity()).getMySharedPreferences();
         goalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
+        //SharedPreferences sharedPreferences = ((LoginActivity) requireActivity()).getMySharedPreferences();
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Retrieve references to UI elements
         Spinner categorySpinner = rootView.findViewById(R.id.spinner3);
@@ -79,11 +87,12 @@ public class AddGoalFragment extends Fragment {
                 picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        startDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
+                        startDateEditText.setText(i2 + "/" + (i1 + 1) + "/" + i);
                     }
-                },year,month,day);
+                }, year, month, day);
                 picker.show();
             }
+
         });
 
         endDateEditText.setOnClickListener(new View.OnClickListener() {
@@ -96,9 +105,9 @@ public class AddGoalFragment extends Fragment {
                 picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        endDateEditText.setText(i2+"/"+(i1 +1)+ "/" + i);
+                        endDateEditText.setText(i2 + "/" + (i1 + 1) + "/" + i);
                     }
-                },year,month,day);
+                }, year, month, day);
                 picker.show();
             }
         });
@@ -139,17 +148,17 @@ public class AddGoalFragment extends Fragment {
                 String startDate = startDateEditText.getText().toString();
                 String endDate = endDateEditText.getText().toString();
                 String status = "Incomplete";
-                if(TextUtils.isEmpty(name)){
+                if (TextUtils.isEmpty(name)) {
                     nameEditText.setError("Name cant be empty");
                     nameEditText.requestFocus();
                     flag = 1;
                 }
-                if (TextUtils.isEmpty(tasks)){
+                if (TextUtils.isEmpty(tasks)) {
                     tasksEditText.setError("cant be empty");
                     tasksEditText.requestFocus();
                     flag = 1;
                 }
-                if(category == "Select a category"){
+                if (category == "Select a category") {
                     Toast.makeText(getActivity(), "Select a category", Toast.LENGTH_SHORT).show();
                     categorySpinner.requestFocus();
                     flag = 1;
@@ -172,7 +181,13 @@ public class AddGoalFragment extends Fragment {
                 }
                 if (flag == 0) {
                     // Create a new Goal object
-                    Goal goal = new Goal(category, name, tasks, notes, startDate, endDate, priority, status);
+
+                    int goalId = generateGoalId();
+                    //int userId = sharedPref.getInt("customerId", userViewModel.getUserId());
+                    //int userId = userViewModel.getUserId().getValue();
+                    //Log.d("MyTagtttt", "User ID: " + id);
+                    int customerId = sharedPreferences.getInt("customerId", 0);
+                    Goal goal = new Goal(goalId, category, name, tasks, notes, startDate, endDate, priority, status, customerId);
 
                     // Insert the goal using the GoalViewModel
                     goalViewModel.insertGoal(goal);
@@ -207,4 +222,12 @@ public class AddGoalFragment extends Fragment {
         });
         return rootView;
     }
+
+    private int generateGoalId() {
+        int goalId;
+        goalId = new Random().nextInt(90000) + 10000;
+        return goalId;
+    }
+
+
 }

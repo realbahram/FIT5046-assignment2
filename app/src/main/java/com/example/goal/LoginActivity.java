@@ -2,13 +2,12 @@ package com.example.goal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Database;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,16 +16,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import com.example.goal.database.CustomerDatabase;
 import com.example.goal.entity.Customer;
-import com.example.goal.fragment.HomeFragment;
 import com.example.goal.repository.CustomerRepository;
 import com.example.goal.viewmodel.CustomerViewModel;
-import com.example.goal.viewmodel.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -34,26 +29,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkRequest;
 
-import java.util.List;
+import androidx.work.WorkRequest;
 
 public class LoginActivity extends AppCompatActivity {
     private WorkRequest uploadWorkRequest;
     private FirebaseAuth auth;
     private CustomerDatabase db; // Add a field for the database
     private CustomerViewModel customerViewModel;
-    private UserViewModel userViewModel;
+    private SharedPreferences sharedPreferences;
 
     private  TextInputLayout emailEditText,passwordEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
         //FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
@@ -86,6 +77,9 @@ public class LoginActivity extends AppCompatActivity {
                 }else loginUser(txt_Email,txt_Pwd);
             }
         });
+    }
+    public SharedPreferences getMySharedPreferences() {
+        return getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
 
     private void loginUser(String txt_email, String txt_pwd) {
@@ -124,16 +118,11 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onChanged(Customer customer) {
                             if (customer != null) {
-                                // Insert the customer into the UserViewModel
-                                userViewModel.setUserId(customer.getUid());
-                                userViewModel.setUserName(customer.getName());
-                                userViewModel.setUserEmail(customer.getEmail());
-                                userViewModel.setUserAdd(customer.getAddress());
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("customerId", customer.getUid());
+                                editor.apply();
+                                Log.d("LoginActivity", "Customertest: " + customer.toString());
 
-                                Log.d("LoginActivity", "NEW ID: " + userViewModel.getUserId());
-                                Log.d("LoginActivity", "NEW Name: " + userViewModel.getUserName());
-                                Log.d("LoginActivity", "NEW Email: " + userViewModel.getUserEmail());
-                                Log.d("LoginActivity", "NEW Address: " + userViewModel.getUserAdd());
                             }
                         }
                     });

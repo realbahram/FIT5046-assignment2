@@ -33,10 +33,23 @@ public class Goal {
     @ColumnInfo(name = "status")
     private String status;
 
+    @ColumnInfo(name = "customerId")
+    private int customerId;
+
     // ... constructors, getters, and setters
 
-    public Goal( String category, String name, String tasks, String notes,
-                String startDate, String endDate, String priority, String status) {
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public Goal(int id, String category, String name, String tasks, String notes,
+                String startDate, String endDate, String priority, String status, int customerId) {
+        this.id = id;
+        this.customerId = customerId;
         this.category = category;
         this.name = name;
         this.tasks = tasks;
