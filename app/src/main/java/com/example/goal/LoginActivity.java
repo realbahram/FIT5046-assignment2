@@ -120,6 +120,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (customer != null) {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("customerId", customer.getUid());
+                                editor.putString("customername", customer.getName());
+                                editor.putString("customeraddress", customer.getAddress());
                                 editor.apply();
                                 Log.d("LoginActivity", "Customertest: " + customer.toString());
 

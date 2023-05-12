@@ -1,5 +1,7 @@
 package com.example.goal.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -65,6 +67,7 @@ public class HomeFragment extends Fragment {
     private GoalViewModel goalViewModel;
 
     private WorkRequest uploadWorkRequest;
+    private String cus_name;
 
     public HomeFragment() {
     }
@@ -81,7 +84,10 @@ public class HomeFragment extends Fragment {
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
         uploadWorkRequest = new PeriodicWorkRequest.Builder(FirebaseWriteWorker.class, 1, TimeUnit.DAYS).build();
-
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        cus_name = sharedPreferences.getString("customername", "");
+        //Log.d("customernametest", "customernametest: " + cus_name);
+        textViewWelcome.setText("Welcome " + cus_name + "!");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -157,7 +163,9 @@ public class HomeFragment extends Fragment {
                     // save in local database
                     //customerViewModel.insert(temp);
 
-                    textViewWelcome.setText("Welcome " + name + "!");
+                    Log.d("customernametest", "customernametest: " + cus_name);
+
+                    textViewWelcome.setText("Welcome " + cus_name + "!");
                 }
             }
 

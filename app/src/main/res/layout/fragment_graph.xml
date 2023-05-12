@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#ffffff">
+    android:background="#FEF9E7">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
