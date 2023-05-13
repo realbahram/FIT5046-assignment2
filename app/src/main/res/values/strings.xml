@@ -17,4 +17,5 @@
         <item>Pie Chart</item>
         <item>Bar Chart</item>
     </string-array>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYmFocmFtcmVkaG9vZCIsImEiOiJjbGhsanl0MWQwcnE4M2ZxbHlvaXlmd2lyIn0.pe-pY8ByHZKzwyOxLQGHMA</string>
 </resources>

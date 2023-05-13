@@ -14,5 +14,8 @@
     <item
         android:id="@+id/graph_fragment"
         android:title="Goal Progress Map"/>
+    <item
+        android:id="@+id/map_fragment"
+        android:title="Map"/>
 
 </menu>

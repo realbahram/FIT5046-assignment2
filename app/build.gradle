@@ -78,4 +78,9 @@ dependencies {
 
     implementation "androidx.work:work-runtime:2.7.1"
     //AIzaSyBPvDoxsuR5710TbK-DDbduroG_Vb6jRbU
+
+    implementation ('com.mapbox.maps:android:10.12.1'){
+        exclude group: 'group_name', module: 'module_name'
+    }
+
 }

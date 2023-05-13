@@ -19,4 +19,8 @@
         android:id="@+id/graph_fragment"
         android:name="com.example.goal.fragment.Graph"
         android:label="Graph"/>
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.example.goal.fragment.MapFragment"
+        android:label="Map"/>
 </navigation>
