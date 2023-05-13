@@ -6,5 +6,15 @@
         <item>Select a category</item>
         <item>Sport</item>
         <item>Study</item>
+        <item>Family</item>
+        <item>Personal development</item>
+        <item>Career</item>
+        <item>Leisure</item>
+        <item></item>
+    </string-array>
+    <string name="chart_type_prompt">Select Chart Type</string>
+    <string-array name="chart_types">
+        <item>Pie Chart</item>
+        <item>Bar Chart</item>
     </string-array>
 </resources>
