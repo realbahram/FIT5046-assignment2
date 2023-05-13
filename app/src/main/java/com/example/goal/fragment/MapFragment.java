@@ -1,5 +1,7 @@
 package com.example.goal.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,14 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.goal.R;
-import com.example.goal.entity.Customer;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
@@ -33,74 +27,68 @@ import java.util.List;
 import java.util.Locale;
 
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
+
+
 public class MapFragment extends Fragment {
     private MapView mapView;
-    private FirebaseAuth authProfile;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int customerId = sharedPreferences.getInt("customerId", 0);
+        String customerAdd = sharedPreferences.getString("customeraddress", "");
         // Inflate the layout for this fragment
-        authProfile = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = authProfile.getCurrentUser();
-        String useId = firebaseUser.getUid();
+
+
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("User");
-        referenceProfile.child(useId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Customer customer = snapshot.getValue(Customer.class);
-                if (customer != null) {
-                    String name = customer.getName();
-                    String email = customer.getEmail();
-                    String address = customer.getAddress();
-                    Log.d("Address",address);
-                    List<Address> addresses = null;
-                    try {
-                        addresses = geocoder.getFromLocationName(address,1);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    // save in local database
-                    //customerViewModel.insert(temp);
-                    double latitude = 0;
-                    double longitude = 0;
-                    if (addresses.size() > 0) {
-                        latitude = addresses.get(0).getLatitude();
-                        longitude = addresses.get(0).getLongitude();
-                        Log.d("Geocode", "Latitude: " + latitude + ", Longitude: " + longitude);
-                    } else {
-                        Log.d("Geocode", "Address not found");
-                    }
+        Log.d("Addresstest",customerAdd);
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(customerAdd,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                    final Point point = Point.fromLngLat(longitude, latitude);
-                    mapView = rootView.findViewById(R.id.mapView);
-                    CameraOptions cameraPosition = new CameraOptions.Builder()
-                            .zoom(13.0)
-                            .center(point)
-                            .build();
-                    mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
-                    mapView.getMapboxMap().setCamera(cameraPosition);
+        double latitude = 0;
+        double longitude = 0;
+        if (addresses.size() > 0) {
+            latitude = addresses.get(0).getLatitude();
+            longitude = addresses.get(0).getLongitude();
+            Log.d("Geocode", "Latitude: " + latitude + ", Longitude: " + longitude);
+        } else {
+            Log.d("Geocode", "Address not found");
+        }
+
+        final Point point = Point.fromLngLat(longitude, latitude);
+        mapView = rootView.findViewById(R.id.mapView);
+        CameraOptions cameraPosition = new CameraOptions.Builder()
+                .zoom(13.0)
+                .center(point)
+                .build();
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
+        mapView.getMapboxMap().setCamera(cameraPosition);
 
 
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "something Gone wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
         return rootView;
     }
 }
