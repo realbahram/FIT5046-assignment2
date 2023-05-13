@@ -6,15 +6,13 @@
         android:id="@+id/nav_home_fragment"
         android:title="DashBoard" />
     <item
-        android:id="@+id/nav_add_fragment"
-        android:title="Add Fragment" />
-    <item
         android:id="@+id/add_goal_fragment"
-        android:title="Add Goal"/>
+        android:title="Set Your Goal"/>
     <item
         android:id="@+id/all_goal_fragment"
-        android:title="All Goals"/>
+        android:title="View All Goal"/>
     <item
         android:id="@+id/graph_fragment"
-        android:title="Graph"/>
+        android:title="Goal Progress Map"/>
+
 </menu>

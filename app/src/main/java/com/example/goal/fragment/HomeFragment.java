@@ -1,5 +1,7 @@
 package com.example.goal.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,13 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
 import com.example.goal.R;
@@ -29,6 +32,7 @@ import com.example.goal.repository.TheySaidSoAPI;
 import com.example.goal.retrofit.RetrofitInterface;
 import com.example.goal.viewmodel.CustomerViewModel;
 import com.example.goal.viewmodel.GoalViewModel;
+import com.example.goal.worker.FirebaseWriteWorker;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -63,6 +67,7 @@ public class HomeFragment extends Fragment {
     private GoalViewModel goalViewModel;
 
     private WorkRequest uploadWorkRequest;
+    private String cus_name;
 
     public HomeFragment() {
     }
@@ -78,9 +83,11 @@ public class HomeFragment extends Fragment {
         textViewQuote = view.findViewById(R.id.textviewQuote);
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
-        pieChart = view.findViewById(R.id.pieChart);
-        uploadWorkRequest = new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS).build();
-
+        uploadWorkRequest = new PeriodicWorkRequest.Builder(FirebaseWriteWorker.class, 1, TimeUnit.DAYS).build();
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        cus_name = sharedPreferences.getString("customername", "");
+        //Log.d("customernametest", "customernametest: " + cus_name);
+        textViewWelcome.setText(cus_name +", " +"embark on your goals!");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -117,6 +124,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Button triggerButton = view.findViewById(R.id.button_trigger);
+        triggerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest);
+                Toast.makeText(requireContext(), "WorkManager job triggered", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         if (firebaseUser == null) {
             Toast.makeText(getActivity(), "not Found the user information", Toast.LENGTH_SHORT).show();
         } else {
@@ -146,7 +163,9 @@ public class HomeFragment extends Fragment {
                     // save in local database
                     //customerViewModel.insert(temp);
 
-                    textViewWelcome.setText("Welcome " + name + "!");
+                    Log.d("customernametest", "customernametest: " + cus_name);
+
+                    textViewWelcome.setText("Welcome " + cus_name + "!");
                 }
             }
 
@@ -156,6 +175,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
 }
 

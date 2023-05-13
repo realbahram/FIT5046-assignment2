@@ -1,6 +1,8 @@
 package com.example.goal.fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,13 +63,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Graph extends Fragment {
 
     private FragmentGraphBinding binding;
-    //private FragmentGraphBinding addBinding;
     private GoalViewModel goalViewModel;
     private PieChart pieChart;
     private BarChart barChart;
     private Calendar startDateCalendar = Calendar.getInstance();
     private Calendar endDateCalendar = Calendar.getInstance();
     private Spinner chartTypeSpinner;
+    private int loggedInUserId;
 
 
     public Graph() {
@@ -80,6 +82,7 @@ public class Graph extends Fragment {
         binding = FragmentGraphBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         pieChart = binding.pieChart;
         barChart = binding.barChart;
         chartTypeSpinner = binding.chartTypeSpinner;
@@ -88,6 +91,9 @@ public class Graph extends Fragment {
         startDateCalendar = Calendar.getInstance();
         endDateCalendar = Calendar.getInstance();
 
+        // Retrieve the logged-in user's ID from SharedPreferences
+        loggedInUserId = sharedPreferences.getInt("customerId", 0);
+
         //Set up the spinner
         chartTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -95,6 +101,13 @@ public class Graph extends Fragment {
                 String selectedChartType = parent.getItemAtPosition(position).toString();
                 // Call a method to handle the chart type selection based on the selectedChartType
                 handleChartTypeSelection(selectedChartType);
+                updateGoalCharts(loggedInUserId, startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis());
+            }
+            private void updateGoalCharts(int userId, long startDate, long endDate) {
+                // Update the pie chart with the selected dates
+                updatePieChart(userId, startDate, endDate);
+                // Update the bar chart with the selected dates
+                updateBarChart(userId, startDate, endDate);
             }
 
             @Override
@@ -124,8 +137,8 @@ public class Graph extends Fragment {
         long endDate = endDateCalendar.getTime().getTime();
 
         // Update the pie chart with the initial dates
-        updatePieChart(startDate, endDate);
-        updateBarChart(startDate, endDate);
+        updatePieChart(loggedInUserId, startDate, endDate);
+        updateBarChart(loggedInUserId, startDate, endDate);
 
         return view;
     }
@@ -151,11 +164,8 @@ public class Graph extends Fragment {
                     String endDate = formatDate(endDateCalendar.getTime());
                     binding.endDateEditText.setText(endDate);
                 }
-
-                // Update the pie chart with the selected dates
-                updatePieChart(startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis());
-                updateBarChart(startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis());
-
+                updatePieChart(loggedInUserId, startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis());
+                updateBarChart(loggedInUserId, startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis());
             }
         };
         int year, month, day;
@@ -179,6 +189,7 @@ public class Graph extends Fragment {
         // Show the dialog
         datePickerDialog.show();
     }
+
     private void handleChartTypeSelection(String chartType) {
         if (chartType.equals("Pie Chart")) {
             // Show the pie chart and hide the bar chart (if applicable)
@@ -191,84 +202,23 @@ public class Graph extends Fragment {
         }
     }
 
-    private void updateBarChart(long startDate, long endDate) {
+    private void updatePieChart(int userId, long startDate, long endDate) {
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
             public void onChanged(List<Goal> goals) {
                 if (goals != null && !goals.isEmpty()) {
-                    // Filter the goals data by the selected dates
+                    // Filter the goals data by the selected user ID and dates
                     List<Goal> filteredGoals = new ArrayList<>();
                     for (Goal goal : goals) {
                         try {
                             Date goalStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getStartDate());
                             Date goalEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getEndDate());
-                            if (goalStartDate.getTime() >= startDate && goalEndDate.getTime() <= endDate) {
+                            if (goal.getCustomerId() == userId && goalStartDate.getTime() >= startDate && goalEndDate.getTime() <= endDate) {
                                 filteredGoals.add(goal);
                             }
                         } catch (ParseException e) {
                             // Handle parsing error
-                        }
-                    }
-
-                    // Calculate the completion status
-                    int completedGoals = 0;
-                    int totalGoals = filteredGoals.size();
-                    for (Goal goal : filteredGoals) {
-                        if (goal.getStatus().equals("Complete")) {
-                            completedGoals++;
-                        }
-                    }
-                    int incompleteGoals = totalGoals - completedGoals;
-
-                    // Update the bar chart
-                    ArrayList<BarEntry> entries = new ArrayList<>();
-                    entries.add(new BarEntry(0, completedGoals));
-                    entries.add(new BarEntry(1, incompleteGoals));
-
-                    BarDataSet dataSet = new BarDataSet(entries, "Goal Completion");
-                    dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-                    dataSet.setDrawValues(true);
-
-                    BarData data = new BarData(dataSet);
-                    data.setValueTextSize(12f);
-                    data.setValueTextColor(Color.WHITE);
-
-                    barChart.setData(data);
-                    barChart.getDescription().setEnabled(false);
-                    barChart.getXAxis().setEnabled(false);
-                    barChart.getAxisRight().setEnabled(false);
-                    barChart.getLegend().setEnabled(false);
-                    barChart.animateY(1000);
-
-                    // Refresh the chart
-                    barChart.invalidate();
-                } else {
-                    // Clear the chart data and set a message
-                    barChart.clear();
-                    barChart.setNoDataText("Set a goal NOW!");
-                    barChart.setNoDataTextColor(Color.GRAY);
-                }
-            }
-        });
-    }
-
-
-    private void updatePieChart(long startDate, long endDate) {
-        goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
-            @Override
-            public void onChanged(List<Goal> goals) {
-                if (goals != null && !goals.isEmpty()) {
-                    // Filter the goals data by the selected dates
-                    List<Goal> filteredGoals = new ArrayList<>();
-                    for (Goal goal : goals) {
-                        try {
-                            Date goalStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getStartDate());
-                            Date goalEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getEndDate());
-                            if (goalStartDate.getTime() >= startDate && goalEndDate.getTime() <= endDate) {
-                                filteredGoals.add(goal);
-                            }
-                        } catch (ParseException e) {
-                            // Handle parsing error
+                            e.printStackTrace();
                         }
                     }
 
@@ -314,6 +264,67 @@ public class Graph extends Fragment {
                     pieChart.clear();
                     pieChart.setNoDataText("Set a goal NOW!");
                     pieChart.setNoDataTextColor(Color.GRAY);
+                }
+            }
+        });
+    }
+    private void updateBarChart(int userId, long startDate, long endDate) {
+        goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
+            @Override
+            public void onChanged(List<Goal> goals) {
+                if (goals != null && !goals.isEmpty()) {
+                    // Filter the goals data by the selected user ID and dates
+                    List<Goal> filteredGoals = new ArrayList<>();
+                    for (Goal goal : goals) {
+                        try {
+                            Date goalStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getStartDate());
+                            Date goalEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(goal.getEndDate());
+                            if (goal.getCustomerId() == userId && goalStartDate.getTime() >= startDate && goalEndDate.getTime() <= endDate) {
+                                filteredGoals.add(goal);
+                            }
+                        } catch (ParseException e) {
+                            // Handle parsing error
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Calculate the completion status
+                    int completedGoals = 0;
+                    int totalGoals = filteredGoals.size();
+                    for (Goal goal : filteredGoals) {
+                        if (goal.getStatus().equals("Complete")) {
+                            completedGoals++;
+                        }
+                    }
+                    int incompleteGoals = totalGoals - completedGoals;
+
+                    // Update the bar chart
+                    ArrayList<BarEntry> entries = new ArrayList<>();
+                    entries.add(new BarEntry(0, completedGoals));
+                    entries.add(new BarEntry(1, incompleteGoals));
+
+                    BarDataSet dataSet = new BarDataSet(entries, "Goal Completion");
+                    dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                    dataSet.setDrawValues(true);
+
+                    BarData data = new BarData(dataSet);
+                    data.setValueTextSize(12f);
+                    data.setValueTextColor(Color.WHITE);
+
+                    barChart.setData(data);
+                    barChart.getDescription().setEnabled(false);
+                    barChart.getXAxis().setEnabled(false);
+                    barChart.getAxisRight().setEnabled(false);
+                    barChart.getLegend().setEnabled(false);
+                    barChart.animateY(1000);
+
+                    // Refresh the chart
+                    barChart.invalidate();
+                } else {
+                    // Clear the chart data and set a message
+                    barChart.clear();
+                    barChart.setNoDataText("Set a goal NOW!");
+                    barChart.setNoDataTextColor(Color.GRAY);
                 }
             }
         });

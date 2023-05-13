@@ -49,9 +49,12 @@ public class CustomerRepository {
     public void updateCustomer(final Customer customer) {
         CustomerDatabase.databaseWriteExecutor.execute(() -> customerDao.updateCustomer(customer));
     }
-
     public static Customer getCustomerByEmail(String email) {
         return customerDao.getCustomerByEmailSync(email);
+    }
+
+    public LiveData<Customer> getCustomerlByEmail(String email) {
+        return customerDao.getCustomerByEmail(email);
     }
 
     public CompletableFuture<Customer> findByIDFuture(final int customerId) {
