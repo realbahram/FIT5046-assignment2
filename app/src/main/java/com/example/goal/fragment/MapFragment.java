@@ -42,10 +42,14 @@ import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 
-
+/**
+ * A fragment that displays a map and shows the location of the logged user.
+ */
 public class MapFragment extends Fragment {
     private MapView mapView;
-
+    /**
+     * Default constructor for the MapFragment.
+     */
     public MapFragment() {
         // Required empty public constructor
     }
@@ -82,7 +86,7 @@ public class MapFragment extends Fragment {
         final Point point = Point.fromLngLat(longitude, latitude);
         mapView = rootView.findViewById(R.id.mapView);
         CameraOptions cameraPosition = new CameraOptions.Builder()
-                .zoom(13.0)
+                .zoom(14.0)
                 .center(point)
                 .build();
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
