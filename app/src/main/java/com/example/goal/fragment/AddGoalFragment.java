@@ -87,7 +87,7 @@ public class AddGoalFragment extends Fragment {
         EditText endDateEditText = rootView.findViewById(R.id.editTextEndDate);
         RadioGroup priorityRadioGroup = rootView.findViewById(R.id.priority_radiogroup);
         Button addButton = rootView.findViewById(R.id.button4);
-        addedGoalTextView = rootView.findViewById(R.id.added_goal_textview);
+        //addedGoalTextView = rootView.findViewById(R.id.added_goal_textview);
         // the DatePickerDialog for startDateEditText
         startDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,16 +233,16 @@ public class AddGoalFragment extends Fragment {
         });
 
         // Observe the goals LiveData in the GoalViewModel
-        goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
-            @Override
-            public void onChanged(List<Goal> goals) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (Goal goal : goals) {
-                    stringBuilder.append(goal.getName()).append("\n");
-                }
-                addedGoalTextView.setText(stringBuilder.toString());
-            }
-        });
+//        goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
+//            @Override
+//            public void onChanged(List<Goal> goals) {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (Goal goal : goals) {
+//                    stringBuilder.append(goal.getName()).append("\n");
+//                }
+//                addedGoalTextView.setText(stringBuilder.toString());
+//            }
+//        });
         return rootView;
     }
 

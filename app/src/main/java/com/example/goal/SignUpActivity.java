@@ -134,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
                     // Insert the Customer object into the Firebase Database
                     reference.child(String.valueOf(userId)).setValue(helperclass);
                     String msg = "Registration Successful";
+                    Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignUpActivity.this,
                             LoginActivity.class));
                 }else {

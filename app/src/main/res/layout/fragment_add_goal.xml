@@ -229,13 +229,13 @@
             android:layout_margin="10dp"
             android:background="@drawable/round_shape_btn"
             android:textSize="30sp" />
-        <TextView
-            android:id="@+id/added_goal_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Added Goal:"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/added_goal_textview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Added Goal:"-->
+<!--            android:textStyle="bold" />-->
 
     </LinearLayout>
 
