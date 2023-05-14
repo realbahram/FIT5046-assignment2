@@ -49,7 +49,6 @@ public class CustomerRepository {
     public void updateCustomer(final Customer customer) {
         CustomerDatabase.databaseWriteExecutor.execute(() -> customerDao.updateCustomer(customer));
     }
-
     public static Customer getCustomerByEmail(String email) {
         return customerDao.getCustomerByEmailSync(email);
     }
@@ -63,7 +62,19 @@ public class CustomerRepository {
     }
 
     public void setCustomer(Customer customer) {
-        CustomerDatabase.databaseWriteExecutor.execute(() -> {
+        new SetCustomerAsyncTask(customerDao).execute(customer);
+    }
+
+    private static class SetCustomerAsyncTask extends AsyncTask<Customer, Void, Void> {
+        private CustomerDAO customerDao;
+
+        private SetCustomerAsyncTask(CustomerDAO customerDao) {
+            this.customerDao = customerDao;
+        }
+
+        @Override
+        protected Void doInBackground(Customer... customers) {
+            Customer customer = customers[0];
             Customer existingCustomer = customerDao.findByID(customer.getUid());
 
             if (existingCustomer != null) {
@@ -76,6 +87,8 @@ public class CustomerRepository {
                 // Insert the new customer
                 customerDao.insert(customer);
             }
-        });
+
+            return null;
+        }
     }
 }

@@ -18,14 +18,26 @@ import com.example.goal.viewmodel.GoalViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * An adapter class for populating a RecyclerView with a list of logged in user goals.
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.GoalViewHolder> {
     private List<Goal> goals = new ArrayList<>();
     private GoalViewModel goalViewModel;
-
+    /**
+     * Constructs a RecyclerViewAdapter with the specified GoalViewModel.
+     *
+     * @param viewModel The GoalViewModel to be used for goal-related operations.
+     */
     public RecyclerViewAdapter(GoalViewModel viewModel) {
         this.goalViewModel = viewModel;
     }
 
+    /**
+     * Sets the list of goals for the adapter.
+     *
+     * @param goals The list of goals to be displayed in the RecyclerView.
+     */
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
         notifyDataSetChanged();
@@ -49,7 +61,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return goals.size();
     }
-
+    /**
+     * ViewHolder class for displaying individual goals in the RecyclerView.
+     */
     public class GoalViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nameTextView;
@@ -90,7 +104,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int position = getBindingAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Goal goal = goals.get(position);
-                        goal.setStatus("Complete"); // Update the goal status
+                        // Update the goal status
+                        goal.setStatus("Complete");
                         goalViewModel.updateGoalStatus(goal);
                         notifyItemChanged(position);
 
@@ -99,6 +114,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
+        /**
+         * Binds the goal data to the ViewHolder.
+         *
+         * @param goal The goal object to bind to the ViewHolder.
+         */
         public void bind(Goal goal) {
             nameTextView.setText(goal.getName());
             categoryTextView.setText(goal.getCategory());

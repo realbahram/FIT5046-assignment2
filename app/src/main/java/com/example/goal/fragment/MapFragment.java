@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.goal.R;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.maps.model.MarkerOptions;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
@@ -41,12 +39,7 @@ import androidx.core.content.ContextCompat;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
-import com.mapbox.maps.plugin.annotation.AnnotationConfig;
-import com.mapbox.maps.plugin.annotation.AnnotationPlugin;
-import com.mapbox.maps.plugin.annotation.AnnotationPluginImplKt;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotation;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManagerKt;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 
 
@@ -78,7 +71,7 @@ public class MapFragment extends Fragment {
 
         double latitude = 0;
         double longitude = 0;
-        if (addresses != null && addresses.size() > 0) {
+        if (addresses.size() > 0) {
             latitude = addresses.get(0).getLatitude();
             longitude = addresses.get(0).getLongitude();
             Log.d("Geocode", "Latitude: " + latitude + ", Longitude: " + longitude);
@@ -86,19 +79,10 @@ public class MapFragment extends Fragment {
             Log.d("Geocode", "Address not found");
         }
 
-
-
         final Point point = Point.fromLngLat(longitude, latitude);
-//        // adding marker
-//        PointAnnotationManager ptMng;
-//        AnnotationPlugin annotationApi = AnnotationPluginImplKt.getAnnotations(mapView);
-//        ptMng = PointAnnotationManagerKt.createPointAnnotationManager(annotationApi, new AnnotationConfig());
-//        PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions().withPoint(point).withIconSize(1);
-//        PointAnnotation pointAnnotation = ptMng.create(pointAnnotationOptions);
-
         mapView = rootView.findViewById(R.id.mapView);
         CameraOptions cameraPosition = new CameraOptions.Builder()
-                .zoom(15.0)
+                .zoom(13.0)
                 .center(point)
                 .build();
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
@@ -106,24 +90,5 @@ public class MapFragment extends Fragment {
 
 
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mapView.onStart();
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mapView.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
     }
 }

@@ -56,62 +56,64 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+/**
+ * The HomeFragment class represents a fragment that displays the home screen of the Goal app.
+ * It shows a welcome message, a quote fetched from an API, and provides a button to trigger a WorkManager job.
+ * Additionally, it retrieves and displays the customer's name from shared preferences.
+ */
 public class HomeFragment extends Fragment {
     private HomeFragmentBinding addBinding;
-    private FirebaseAuth authProfile;
     private TextView textViewWelcome,textViewQuote;
     private String name, email, address;
     private CustomerViewModel customerViewModel;
-    private PieChart pieChart;
     private GoalViewModel goalViewModel;
-
     private WorkRequest uploadWorkRequest;
     private String cus_name;
 
+    /**
+     * Default constructor for the HomeFragment class
+     */
     public HomeFragment() {
     }
 
+    /**
+     * Called when the fragment view is created.
+     * Initializes necessary components, retrieves data, and sets up UI elements.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          The parent view that the fragment UI should be attached to.
+     * @param savedInstanceState The saved instance state of the fragment.
+     * @return The inflated View for the fragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         addBinding = HomeFragmentBinding.inflate(inflater, container, false);
         View view = addBinding.getRoot();
-        authProfile = FirebaseAuth.getInstance();
+
+        // Initialize necessary components and views
         textViewWelcome = view.findViewById(R.id.welcome_message_textview);
         textViewQuote = view.findViewById(R.id.textviewQuote);
-        FirebaseUser firebaseUser = authProfile.getCurrentUser();
         goalViewModel = new ViewModelProvider(requireActivity()).get(GoalViewModel.class);
         uploadWorkRequest = new PeriodicWorkRequest.Builder(FirebaseWriteWorker.class, 1, TimeUnit.DAYS).build();
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        // Get the customer name from login page using sharedPreferences
         cus_name = sharedPreferences.getString("customername", "");
-        //Log.d("customernametest", "customernametest: " + cus_name);
+
+        // Set the welcome message text with the customer's name
         textViewWelcome.setText(cus_name +", " +"embark on your goals!");
+
+        // Create and configure the Retrofit instance for API call
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.api-ninjas.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
-////        retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Callback<List<TheySaidSoAPI>>() {
-////            @Override
-////            public void onResponse(Call<List<TheySaidSoAPI>> call, Response<List<TheySaidSoAPI>> response) {
-////                List<TheySaidSoAPI> list = response.body();
-////                String result = list.get(0).quote;
-////                textViewQuote.setText(result);
-////            }
-////
-////            @Override
-////            public void onFailure(Call<List<TheySaidSoAPI>> call, Throwable t) {
-////                textViewQuote.setText(t.getMessage());
-////            }
-////        });
-////        retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Call<List<TheySaidSoAPI>>())
+        // Make an API call to retrieve a quote and set it in the text view
         retrofitInterface.quote("eWXiX98Bqbn57cbKV5KN2A==Eo4oOf4lNxbJMQnT").enqueue(new Callback<ArrayList<TheySaidSoAPI>>() {
             @Override
             public void onResponse(Call<ArrayList<TheySaidSoAPI> >call, Response<ArrayList<TheySaidSoAPI>> response) {
-               // Log.i("RetrofitResponse", "onResponse: " + response.body().get(0).getQuote());
-                //textViewQuote.setText("sdasdasdasdasd");
                 textViewQuote.setText(response.body().get(0).getQuote());
             }
 
@@ -119,11 +121,10 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<ArrayList<TheySaidSoAPI>> call, Throwable t) {
 
                 Log.i("RetrofitResponse", "onFail: " + t.getMessage());
-
-               // textViewQuote.setText(t.getMessage());
             }
         });
 
+        // Trigger the WorkManager job when the button is clicked
         Button triggerButton = view.findViewById(R.id.button_trigger);
         triggerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,51 +134,21 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        if (firebaseUser == null) {
-            Toast.makeText(getActivity(), "not Found the user information", Toast.LENGTH_SHORT).show();
-        } else {
-            showUserProfile(firebaseUser);
-        }
         return view;
     }
 
+    /**
+     Called when the view of the fragment is about to be destroyed
+     **/
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         addBinding = null;
     }
 
-    private void showUserProfile(FirebaseUser firebaseUser) {
-        String useId = firebaseUser.getUid();
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("User");
-        referenceProfile.child(useId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //customerViewModel = ViewModelProviders.of(this).get(CustomerViewModel.class);
-                Customer customer = snapshot.getValue(Customer.class);
-                if (customer != null) {
-                    name = customer.getName();
-                    email = customer.getEmail();
-                    address = customer.getAddress();
-                    // save in local database
-                    //customerViewModel.insert(temp);
-
-                    Log.d("customernametest", "customernametest: " + cus_name);
-
-                    textViewWelcome.setText("Welcome " + cus_name + "!");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "something Gone wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
 }
+
+
 
 
 

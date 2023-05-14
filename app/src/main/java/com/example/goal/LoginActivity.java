@@ -31,7 +31,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import androidx.work.WorkRequest;
-
+/**
+ * Represents the login screen of the application.
+ * Allows users to log in with their email and password.
+ */
 public class LoginActivity extends AppCompatActivity {
     private WorkRequest uploadWorkRequest;
     private FirebaseAuth auth;
@@ -78,10 +81,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Retrieves the SharedPreferences object.
+     *
+     * @return The SharedPreferences object.
+     */
     public SharedPreferences getMySharedPreferences() {
         return getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
-
+    /**
+     * Handles the login process.
+     *
+     * @param txt_email The email entered by the user.
+     * @param txt_pwd   The password entered by the user.
+     */
     private void loginUser(String txt_email, String txt_pwd) {
         auth.signInWithEmailAndPassword(txt_email,txt_pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -168,7 +181,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Define an AsyncTask to insert a Customer object into the Room database
+    /**
+     * AsyncTask to insert a Customer object into the Room database.
+     */
     private class InsertCustomerTask extends AsyncTask<Customer, Void, Void> {
 
         @Override
@@ -178,7 +193,11 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
     }
-
+    /**
+     * Displays a toast message.
+     *
+     * @param message The message to be displayed.
+     */
     public void toastMsg(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
