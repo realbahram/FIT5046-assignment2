@@ -3,8 +3,10 @@ package com.example.goal.fragment;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,7 +32,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -137,6 +144,7 @@ public class AddGoalFragment extends Fragment {
 
         // Set a click listener for the add button
         addButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 int flag = 0;
@@ -158,7 +166,7 @@ public class AddGoalFragment extends Fragment {
                     tasksEditText.requestFocus();
                     flag = 1;
                 }
-                if (category == "Select a category") {
+                if (category.equals("Select a category")) {
                     Toast.makeText(getActivity(), "Select a category", Toast.LENGTH_SHORT).show();
                     categorySpinner.requestFocus();
                     flag = 1;
@@ -178,6 +186,28 @@ public class AddGoalFragment extends Fragment {
                     priorityRadioGroup.requestFocus();
                     flag = 1;
                     priority = "";
+                }
+                if(!TextUtils.isEmpty(startDate) && !TextUtils.isEmpty(endDate)) {
+                    Date start;
+                    Date end;
+                    SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd");
+                    try {
+                        start = f.parse(startDate);
+                        end = f.parse(endDate);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (start.compareTo(end) > 0) {
+                        Toast.makeText(getActivity(), "End date should be after the start date", Toast.LENGTH_SHORT).show();
+                        startDateEditText.requestFocus();
+                        endDateEditText.requestFocus();
+                        flag = 1;
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "Dates cant be empty", Toast.LENGTH_SHORT).show();
+                    startDateEditText.requestFocus();
+                    endDateEditText.requestFocus();
+                    flag =1;
                 }
                 if (flag == 0) {
                     // Create a new Goal object
