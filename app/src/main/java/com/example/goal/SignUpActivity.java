@@ -93,8 +93,11 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (!matchFound) {
                     regPassword.setError("password must be more than 7 characters and must have a alphabet");
                     regPassword.requestFocus();
-                    String msg = "Password is too short";
-                } else
+                    //String msg = "Password is too short";
+                } else if(TextUtils.isEmpty(address)) {
+                    regAddress.setError("enter your address");
+                    regAddress.requestFocus();
+                }else
                     registerUser(email, password,name,address);
             }
         });
@@ -141,7 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
                         regEmail.requestFocus();
                         //regPassword.requestFocus();
                     }catch (FirebaseAuthUserCollisionException e){
-                        regEmail.setError("user does not exist");
+                        regEmail.setError("There is user with this email,try another one!");
                     }catch (Exception e){
                         String msg = "registration unsuccessful!!";
                         toastMsg(msg);
