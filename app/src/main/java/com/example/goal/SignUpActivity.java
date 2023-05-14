@@ -50,8 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
     private TextInputLayout regName,regEmail,regAddress,regPassword;
-    private static final String PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d).{7,}$";
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +82,12 @@ public class SignUpActivity extends AppCompatActivity {
                 String address = regAddress.getEditText().getText().toString();
                 Matcher match = pattern.matcher(password);
                 boolean matchFound = match.find();
-                matchFound = true;
+                //matchFound = true;
                 if (TextUtils.isEmpty(email) ||
                         TextUtils.isEmpty(password)) {
                     String msg = "Empty Username or Password";
                 } else if (!matchFound) {
-                    regPassword.setError("password is too short");
+                    regPassword.setError("password must be more than 7 characters and must have a alphabet");
                     regPassword.requestFocus();
                     String msg = "Password is too short";
                 } else
