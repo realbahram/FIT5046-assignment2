@@ -44,6 +44,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+/**
+ * Represents the sign-up screen of the application.
+ * Allows users to create a new account.
+ */
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "HomeFragment";
     private FirebaseAuth auth;
@@ -92,15 +96,19 @@ public class SignUpActivity extends AppCompatActivity {
                     regPassword.requestFocus();
                     String msg = "Password is too short";
                 } else
-//                    rootNode = FirebaseDatabase.getInstance();
-//                    reference = rootNode.getReference("User");
-//                    UserHelperClass helperClass = new UserHelperClass(name,email,password,address);
-//                    reference.child(name).setValue(helperClass);
                     registerUser(email, password,name,address);
             }
         });
 
     }
+    /**
+     * Registers a new user account using the provided email and password.
+     *
+     * @param email_txt    The email address of the user.
+     * @param password_txt The password for the user account.
+     * @param name     The name of the user.
+     * @param address  The address of the user.
+     */
     private void registerUser(String email_txt, String password_txt,String name, String address) {
         // To create username and password
 
@@ -109,18 +117,19 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    // Registration successful
                     FirebaseUser firebaseuser = auth.getCurrentUser();
                     rootNode = FirebaseDatabase.getInstance();
                     reference = rootNode.getReference("User");
                     Log.d(TAG, "writeDataToFirebase() - Customer data written to Firebase at " + new Date().toString());
+                    // Generate a unique user ID
                     int userId = generateUserId();
+                    // Create a Customer object with the user data
                     Customer helperclass = new Customer(userId, name,email_txt,address);
-                    //UserHelperClass helperClass = new UserHelperClass(name,email_txt,password_txt,address);
-                    //reference.child(firebaseuser.getUid()).setValue(helperclass);
-
+                    // Insert the Customer object into the local Room database using the ViewModel
                     CustomerViewModel customerViewModel = new ViewModelProvider(SignUpActivity.this).get(CustomerViewModel.class);
                     customerViewModel.insert(helperclass);
-
+                    // Insert the Customer object into the Firebase Database
                     reference.child(String.valueOf(userId)).setValue(helperclass);
                     String msg = "Registration Successful";
                     startActivity(new Intent(SignUpActivity.this,
@@ -142,6 +151,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Generates a unique user ID for registration.
+     *
+     * @return The generated user ID.
+     */
     private int generateUserId() {
         // Get a reference to the "users" node in the Firebase Realtime Database
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
@@ -155,7 +169,13 @@ public class SignUpActivity extends AppCompatActivity {
 
         return userId;
     }
-
+    /**
+     * Checks if a user ID already exists in the Firebase Realtime Database.
+     *
+     * @param usersRef The reference to the "users" node in the Firebase Realtime Database.
+     * @param userId   The user ID to check for existence.
+     * @return True if the user ID exists, false otherwise.
+     */
     private boolean isUserIdExists(DatabaseReference usersRef, int userId) {
         final boolean[] exists = {false};
         usersRef.child(String.valueOf(userId)).addListenerForSingleValueEvent(new ValueEventListener() {

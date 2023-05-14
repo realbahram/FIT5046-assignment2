@@ -59,7 +59,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+/**
+ * A fragment that displays graphs of goals based on user selection.
+ * A bar chart and a pie chart can be selected based on the input date range
+ */
 public class Graph extends Fragment {
 
     private FragmentGraphBinding binding;
@@ -142,11 +145,22 @@ public class Graph extends Fragment {
 
         return view;
     }
+    /**
+     * Formats the given date using the "dd/MM/yyyy" pattern.
+     *
+     * @param date The date to format.
+     * @return The formatted date string.
+     */
     private String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
     }
 
+    /**
+     * Shows the date picker dialog for selecting the start or end date.
+     *
+     * @param isStartDate True if selecting the start date, false if selecting the end date.
+     */
     private void showDatePickerDialog(final boolean isStartDate) {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -190,6 +204,11 @@ public class Graph extends Fragment {
         datePickerDialog.show();
     }
 
+    /**
+     * Handles the selection of chart type based on the selected chartType.
+     *
+     * @param chartType The selected chart type.
+     */
     private void handleChartTypeSelection(String chartType) {
         if (chartType.equals("Pie Chart")) {
             // Show the pie chart and hide the bar chart (if applicable)
@@ -202,6 +221,13 @@ public class Graph extends Fragment {
         }
     }
 
+    /**
+     * Updates the pie chart based on the user ID and selected dates.
+     *
+     * @param userId    The ID of the user.
+     * @param startDate The start date in milliseconds.
+     * @param endDate   The end date in milliseconds.
+     */
     private void updatePieChart(int userId, long startDate, long endDate) {
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
@@ -268,6 +294,14 @@ public class Graph extends Fragment {
             }
         });
     }
+
+    /**
+     * Updates the bar chart based on the user ID and selected dates.
+     *
+     * @param userId    The ID of the user.
+     * @param startDate The start date in milliseconds.
+     * @param endDate   The end date in milliseconds.
+     */
     private void updateBarChart(int userId, long startDate, long endDate) {
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
@@ -330,3 +364,4 @@ public class Graph extends Fragment {
         });
     }
 }
+

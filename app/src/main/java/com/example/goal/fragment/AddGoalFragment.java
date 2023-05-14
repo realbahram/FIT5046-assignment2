@@ -44,16 +44,20 @@ public class AddGoalFragment extends Fragment {
 
     private GoalViewModel goalViewModel;
     private TextView addedGoalTextView;
-    private GoalDAO goalDao;
-    private int userId;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    private DatePickerDialog picker;
 
+    private DatePickerDialog picker;
+    /**
+     * Default constructor for the AddGoalFragment.
+     */
     public AddGoalFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Static factory method to create a new instance of the AddGoalFragment.
+     *
+     * @return A new instance of the AddGoalFragment.
+     */
     public static AddGoalFragment newInstance() {
         return new AddGoalFragment();
     }
@@ -62,9 +66,9 @@ public class AddGoalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_goal, container, false);
-        //SharedPreferences sharedPreferences = ((LoginActivity) requireActivity()).getMySharedPreferences();
+        // an instance of GoalViewModel created
         goalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
-        //SharedPreferences sharedPreferences = ((LoginActivity) requireActivity()).getMySharedPreferences();
+        // sharedPreferences initialized for getting customer information from login page
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Retrieve references to UI elements
@@ -77,9 +81,11 @@ public class AddGoalFragment extends Fragment {
         RadioGroup priorityRadioGroup = rootView.findViewById(R.id.priority_radiogroup);
         Button addButton = rootView.findViewById(R.id.button4);
         addedGoalTextView = rootView.findViewById(R.id.added_goal_textview);
+        // the DatePickerDialog for startDateEditText
         startDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // DatePickerDialog when startDateEditText is clicked showed
                 final Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
@@ -95,9 +101,11 @@ public class AddGoalFragment extends Fragment {
 
         });
 
+        // the DatePickerDialog for endDateEditText
         endDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // the DatePickerDialog when endDateEditText is clicked showed
                 final Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
@@ -116,6 +124,7 @@ public class AddGoalFragment extends Fragment {
             @Override
             public void onChanged(Boolean isSuccess) {
                 if (isSuccess) {
+                    // Goal inserted successfully
                     Log.d("GoalViewModel", "Goal inserted successfully");
                     Toast.makeText(getActivity(), "Goal added successfully", Toast.LENGTH_SHORT).show();
                     addedGoalTextView.setText(nameEditText.getEditText().getText().toString()); // Display the added goal's name
@@ -127,6 +136,7 @@ public class AddGoalFragment extends Fragment {
                     endDateEditText.setText("");
                     priorityRadioGroup.clearCheck();
                 } else {
+                    // Failed to insert goal
                     Log.d("GoalViewModel", "Failed to insert goal");
                     Toast.makeText(getActivity(), "Failed to add goal", Toast.LENGTH_SHORT).show();
                 }
@@ -163,7 +173,7 @@ public class AddGoalFragment extends Fragment {
                     categorySpinner.requestFocus();
                     flag = 1;
                 }
-                // Determine the selected priority
+                // the selected priority is determined
                 int priorityId = priorityRadioGroup.getCheckedRadioButtonId();
                 String priority;
                 if (priorityId == R.id.high_priority_radiobutton) {
@@ -181,20 +191,12 @@ public class AddGoalFragment extends Fragment {
                 }
                 if (flag == 0) {
                     // Create a new Goal object
-
                     int goalId = generateGoalId();
-                    //int userId = sharedPref.getInt("customerId", userViewModel.getUserId());
-                    //int userId = userViewModel.getUserId().getValue();
-                    //Log.d("MyTagtttt", "User ID: " + id);
                     int customerId = sharedPreferences.getInt("customerId", 0);
                     Goal goal = new Goal(goalId, category, name, tasks, notes, startDate, endDate, priority, status, customerId);
 
                     // Insert the goal using the GoalViewModel
                     goalViewModel.insertGoal(goal);
-                    /// get the current customer
-//                rootNode = FirebaseDatabase.getInstance();
-//                reference = rootNode.getReference("User");
-//                reference.child(firebaseuser.getUid()).setValue(goal);
                     getActivity().onBackPressed();
                 }
             }
@@ -204,15 +206,6 @@ public class AddGoalFragment extends Fragment {
         goalViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
             public void onChanged(List<Goal> goals) {
-                // Handle the updated list of goals
-                // You can perform any necessary operations with the goals here
-                // For example, you can update a RecyclerView or display the goals in a TextView
-
-                // Example: Update a RecyclerView with the list of goals
-                //goalAdapter.setGoals(goals);
-                //goalAdapter.notifyDataSetChanged();
-
-                // Example: Display the goals in a TextView
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Goal goal : goals) {
                     stringBuilder.append(goal.getName()).append("\n");
@@ -223,11 +216,16 @@ public class AddGoalFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Generates a random goal ID.
+     *
+     * @return The randomly generated goal ID.
+     */
     private int generateGoalId() {
         int goalId;
         goalId = new Random().nextInt(90000) + 10000;
         return goalId;
     }
 
-
 }
+

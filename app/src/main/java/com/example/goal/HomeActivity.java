@@ -24,7 +24,10 @@ public class HomeActivity extends AppCompatActivity {
     private HomeActivityBinding binding;
     private AppBarConfiguration mAppBarConfiguration;
     private CustomerViewModel customerViewModel;
-
+    /**
+     * Called when the activity is created.
+     * Sets up the layout, navigation, and user information.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +61,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Handles the logout process.
+     * Starts the LoginActivity and finishes the current activity.
+     */
     private void logout() {
-        // Implement your logout logic here
-        // For example, clear user session and navigate to login screen
-        // ...
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
-
-
-private class GetCustomerAsyncTask extends AsyncTask<String, Void, Customer> {
+    /**
+     * AsyncTask to retrieve the customer based on the email.
+     */
+    private class GetCustomerAsyncTask extends AsyncTask<String, Void, Customer> {
         @Override
         protected Customer doInBackground(String... params) {
             String email = params[0];
