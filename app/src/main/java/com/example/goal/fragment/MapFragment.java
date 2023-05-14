@@ -71,7 +71,7 @@ public class MapFragment extends Fragment {
 
         double latitude = 0;
         double longitude = 0;
-        if (addresses.size() > 0) {
+        if (addresses != null && addresses.size() > 0) {
             latitude = addresses.get(0).getLatitude();
             longitude = addresses.get(0).getLongitude();
             Log.d("Geocode", "Latitude: " + latitude + ", Longitude: " + longitude);
@@ -82,7 +82,7 @@ public class MapFragment extends Fragment {
         final Point point = Point.fromLngLat(longitude, latitude);
         mapView = rootView.findViewById(R.id.mapView);
         CameraOptions cameraPosition = new CameraOptions.Builder()
-                .zoom(13.0)
+                .zoom(15.0)
                 .center(point)
                 .build();
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
@@ -90,5 +90,24 @@ public class MapFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }

@@ -59,9 +59,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
     private void logout() {
-        // Implement your logout logic here
-        // For example, clear user session and navigate to login screen
-        // ...
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
